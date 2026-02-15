@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 exercices — Écrire du HTML</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #34d399;
+      --accent-hover: #6ee7b7;
+      --success: #4ade80;
+      --error: #f87171;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 1rem;
+      max-width: 52rem;
+      margin-inline: auto;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; color: var(--accent); }
+    .intro { color: var(--muted); margin-bottom: 2rem; }
+    .score-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .score-bar progress { flex: 1; min-width: 120px; height: 12px; border-radius: 6px; background: var(--card); }
+    .score-bar progress::-webkit-progress-bar { background: var(--card); border-radius: 6px; }
+    .score-bar progress::-webkit-progress-value { background: var(--accent); border-radius: 6px; }
+    .score-text { font-weight: bold; color: var(--accent); }
+    section.exo {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+    section.exo h2 { font-size: 1rem; margin: 0 0 0.5rem 0; color: var(--text); }
+    section.exo .part { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .exo label { display: block; margin-bottom: 0.25rem; color: var(--muted); font-size: 0.9rem; }
+    .exo textarea.code {
+      width: 100%;
+      min-height: 80px;
+      padding: 0.75rem;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.9rem;
+      background: var(--bg);
+      color: var(--text);
+      border: 2px solid var(--bg);
+      border-radius: 8px;
+      resize: vertical;
+    }
+    .exo textarea.code:focus { outline: none; border-color: var(--accent); }
+    .feedback { margin-top: 0.75rem; padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.9rem; }
+    .feedback.correct { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+    .feedback.incorrect { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+    .feedback .solution { display: block; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(248, 113, 113, 0.3); font-size: 0.85rem; }
+    .feedback .solution code { white-space: pre-wrap; word-break: break-all; }
+    button.verify {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.verify:hover { background: var(--accent-hover); }
+    button.verify:disabled { opacity: 0.6; cursor: not-allowed; }
+    code { background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    .restart-area {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--success);
+      text-align: center;
+    }
+    .restart-area p { margin: 0 0 1rem 0; font-size: 1.1rem; }
+    #restart-btn { font-size: 1rem; padding: 0.75rem 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>30 exercices — Écrire du HTML</h1>
+  <p class="intro">Niveau 3ème — Écris le code HTML demandé dans chaque zone. Tu peux écrire un extrait (sauf quand une page complète est demandée). Clique sur « Vérifier » pour valider.</p>
+
+  <div class="score-bar" role="status" aria-live="polite">
+    <p class="score-text">Score : <span id="score">0</span>/30</p>
+    <progress id="progress" value="0" max="30" aria-label="Exercices réussis"></progress>
+  </div>
+  <div id="restart-area" class="restart-area" hidden>
+    <p id="final-message"></p>
+    <button type="button" id="restart-btn" class="verify">Recommencer les 30 exercices</button>
+  </div>
+
+  <!-- 1 -->
+  <section class="exo" id="ex1">
+    <span class="part">Partie 1 — Les bases</span>
+    <h2>Exercice 1 — Un paragraphe</h2>
+    <p>Écris le HTML d’un <strong>paragraphe</strong> contenant le texte : <em>Bonjour le monde</em>.</p>
+    <label for="code1">Ton code HTML :</label>
+    <textarea id="code1" class="code" spellcheck="false" placeholder="<p>...</p>"></textarea>
+    <button type="button" class="verify" onclick="check(1)">Vérifier</button>
+    <div class="feedback" id="fb-ex1" role="alert" hidden></div>
+  </section>
+
+  <!-- 2 -->
+  <section class="exo" id="ex2">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 2 — Un titre principal</h2>
+    <p>Écris le HTML d’un <strong>titre de niveau 1</strong> avec le texte : <em>Mon site</em>.</p>
+    <label for="code2">Ton code HTML :</label>
+    <textarea id="code2" class="code" spellcheck="false" placeholder="<h1>...</h1>"></textarea>
+    <button type="button" class="verify" onclick="check(2)">Vérifier</button>
+    <div class="feedback" id="fb-ex2" role="alert" hidden></div>
+  </section>
+
+  <!-- 3 -->
+  <section class="exo" id="ex3">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 3 — Deux paragraphes</h2>
+    <p>Écris le HTML de <strong>deux paragraphes</strong> : le premier avec <em>Premier paragraphe</em>, le second avec <em>Deuxième paragraphe</em>.</p>
+    <label for="code3">Ton code HTML :</label>
+    <textarea id="code3" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(3)">Vérifier</button>
+    <div class="feedback" id="fb-ex3" role="alert" hidden></div>
+  </section>
+
+  <!-- 4 -->
+  <section class="exo" id="ex4">
+    <span class="part">Partie 2 — Liens</span>
+    <h2>Exercice 4 — Un lien</h2>
+    <p>Écris le HTML d’un <strong>lien</strong> vers <code>https://example.com</code> dont le texte visible est <em>Aller sur Example</em>.</p>
+    <label for="code4">Ton code HTML :</label>
+    <textarea id="code4" class="code" spellcheck="false" placeholder='<a href="...">...</a>'></textarea>
+    <button type="button" class="verify" onclick="check(4)">Vérifier</button>
+    <div class="feedback" id="fb-ex4" role="alert" hidden></div>
+  </section>
+
+  <!-- 5 -->
+  <section class="exo" id="ex5">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 5 — Une image</h2>
+    <p>Écris le HTML d’une <strong>image</strong> avec <code>src="photo.jpg"</code> et <code>alt="Une photo"</code>.</p>
+    <label for="code5">Ton code HTML :</label>
+    <textarea id="code5" class="code" spellcheck="false" placeholder='<img ...>'></textarea>
+    <button type="button" class="verify" onclick="check(5)">Vérifier</button>
+    <div class="feedback" id="fb-ex5" role="alert" hidden></div>
+  </section>
+
+  <!-- 6 -->
+  <section class="exo" id="ex6">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 6 — Lien qui s’ouvre dans un nouvel onglet</h2>
+    <p>Écris le HTML d’un <strong>lien</strong> vers <code>https://google.com</code> avec le texte <em>Ouvrir Google</em> qui s’ouvre dans un <strong>nouvel onglet</strong>.</p>
+    <label for="code6">Ton code HTML :</label>
+    <textarea id="code6" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(6)">Vérifier</button>
+    <div class="feedback" id="fb-ex6" role="alert" hidden></div>
+  </section>
+
+  <!-- 7 -->
+  <section class="exo" id="ex7">
+    <span class="part">Partie 3 — Listes</span>
+    <h2>Exercice 7 — Liste à puces</h2>
+    <p>Écris le HTML d’une <strong>liste à puces</strong> (<code>&lt;ul&gt;</code>) avec exactement <strong>trois éléments</strong> : Pomme, Banane, Orange.</p>
+    <label for="code7">Ton code HTML :</label>
+    <textarea id="code7" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(7)">Vérifier</button>
+    <div class="feedback" id="fb-ex7" role="alert" hidden></div>
+  </section>
+
+  <!-- 8 -->
+  <section class="exo" id="ex8">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 8 — Liste numérotée</h2>
+    <p>Écris le HTML d’une <strong>liste numérotée</strong> (<code>&lt;ol&gt;</code>) avec deux éléments : Étape 1, Étape 2.</p>
+    <label for="code8">Ton code HTML :</label>
+    <textarea id="code8" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(8)">Vérifier</button>
+    <div class="feedback" id="fb-ex8" role="alert" hidden></div>
+  </section>
+
+  <!-- 9 -->
+  <section class="exo" id="ex9">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 9 — Mettre en gras et en italique</h2>
+    <p>Écris le HTML d’un paragraphe contenant la phrase : <em>Ceci est <strong>très</strong> important.</em> (le mot « très » doit être en gras avec <code>&lt;strong&gt;</code>).</p>
+    <label for="code9">Ton code HTML :</label>
+    <textarea id="code9" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(9)">Vérifier</button>
+    <div class="feedback" id="fb-ex9" role="alert" hidden></div>
+  </section>
+
+  <!-- 10 -->
+  <section class="exo" id="ex10">
+    <span class="part">Partie 4 — Formulaires</span>
+    <h2>Exercice 10 — Un formulaire avec un champ texte</h2>
+    <p>Écris le HTML d’un <strong>formulaire</strong> (<code>&lt;form&gt;</code>) contenant un seul <strong>champ de saisie texte</strong> (<code>&lt;input type="text"&gt;</code>).</p>
+    <label for="code10">Ton code HTML :</label>
+    <textarea id="code10" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(10)">Vérifier</button>
+    <div class="feedback" id="fb-ex10" role="alert" hidden></div>
+  </section>
+
+  <!-- 11 -->
+  <section class="exo" id="ex11">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 11 — Label et champ associés</h2>
+    <p>Écris le HTML d’un <strong>label</strong> « Prénom » associé à un <strong>input texte</strong> grâce aux attributs <code>for</code> et <code>id</code> (utilise l’id <code>prenom</code>).</p>
+    <label for="code11">Ton code HTML :</label>
+    <textarea id="code11" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(11)">Vérifier</button>
+    <div class="feedback" id="fb-ex11" role="alert" hidden></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="exo" id="ex12">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 12 — Champ obligatoire</h2>
+    <p>Écris le HTML d’un champ <strong>input type="text"</strong> avec l’attribut qui indique qu’il est <strong>obligatoire</strong> (required).</p>
+    <label for="code12">Ton code HTML :</label>
+    <textarea id="code12" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(12)">Vérifier</button>
+    <div class="feedback" id="fb-ex12" role="alert" hidden></div>
+  </section>
+
+  <!-- 13 -->
+  <section class="exo" id="ex13">
+    <span class="part">Partie 5 — Structure</span>
+    <h2>Exercice 13 — Un titre h2 et un paragraphe</h2>
+    <p>Écris le HTML d’un <strong>titre de niveau 2</strong> « Bienvenue » suivi d’un <strong>paragraphe</strong> « Voici mon site. »</p>
+    <label for="code13">Ton code HTML :</label>
+    <textarea id="code13" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(13)">Vérifier</button>
+    <div class="feedback" id="fb-ex13" role="alert" hidden></div>
+  </section>
+
+  <!-- 14 -->
+  <section class="exo" id="ex14">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 14 — Balise main</h2>
+    <p>Écris le HTML d’une balise <strong><code>&lt;main&gt;</code></strong> qui contient un paragraphe avec le texte « Contenu principal ».</p>
+    <label for="code14">Ton code HTML :</label>
+    <textarea id="code14" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(14)">Vérifier</button>
+    <div class="feedback" id="fb-ex14" role="alert" hidden></div>
+  </section>
+
+  <!-- 15 -->
+  <section class="exo" id="ex15">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 15 — Un div avec une class</h2>
+    <p>Écris le HTML d’un <strong><code>&lt;div&gt;</code></strong> avec l’attribut <code>class="container"</code> (le contenu du div peut être vide ou un peu de texte).</p>
+    <label for="code15">Ton code HTML :</label>
+    <textarea id="code15" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(15)">Vérifier</button>
+    <div class="feedback" id="fb-ex15" role="alert" hidden></div>
+  </section>
+
+  <!-- 16 -->
+  <section class="exo" id="ex16">
+    <span class="part">Partie 6 — Tableaux</span>
+    <h2>Exercice 16 — Un tableau simple</h2>
+    <p>Écris le HTML d’un <strong>tableau</strong> avec une ligne de deux cellules : « Nom » et « Âge ».</p>
+    <label for="code16">Ton code HTML :</label>
+    <textarea id="code16" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(16)">Vérifier</button>
+    <div class="feedback" id="fb-ex16" role="alert" hidden></div>
+  </section>
+
+  <!-- 17 -->
+  <section class="exo" id="ex17">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 17 — Ligne d’en-tête de tableau</h2>
+    <p>Écris le HTML d’un <strong>tableau</strong> avec une seule ligne d’<strong>en-tête</strong> (<code>&lt;th&gt;</code>) : « Produit » et « Prix ».</p>
+    <label for="code17">Ton code HTML :</label>
+    <textarea id="code17" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(17)">Vérifier</button>
+    <div class="feedback" id="fb-ex17" role="alert" hidden></div>
+  </section>
+
+  <!-- 18 -->
+  <section class="exo" id="ex18">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 18 — Tableau 2×2</h2>
+    <p>Écris le HTML d’un <strong>tableau</strong> avec <strong>deux lignes</strong> et <strong>deux cellules par ligne</strong> (2×2). Le contenu des cellules peut être A, B, C, D.</p>
+    <label for="code18">Ton code HTML :</label>
+    <textarea id="code18" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(18)">Vérifier</button>
+    <div class="feedback" id="fb-ex18" role="alert" hidden></div>
+  </section>
+
+  <!-- 19 -->
+  <section class="exo" id="ex19">
+    <span class="part">Partie 7 — Navigation et liens</span>
+    <h2>Exercice 19 — Lien d’ancre</h2>
+    <p>Écris le HTML d’un <strong>lien</strong> dont l’attribut <code>href</code> pointe vers l’ancre <code>#section1</code> (lien vers un endroit sur la même page). Le texte du lien peut être « Aller à la section 1 ».</p>
+    <label for="code19">Ton code HTML :</label>
+    <textarea id="code19" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(19)">Vérifier</button>
+    <div class="feedback" id="fb-ex19" role="alert" hidden></div>
+  </section>
+
+  <!-- 20 -->
+  <section class="exo" id="ex20">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 20 — Zone de navigation</h2>
+    <p>Écris le HTML d’une balise <strong><code>&lt;nav&gt;</code></strong> qui contient un <strong>lien</strong> vers <code>index.html</code> avec le texte « Accueil ».</p>
+    <label for="code20">Ton code HTML :</label>
+    <textarea id="code20" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(20)">Vérifier</button>
+    <div class="feedback" id="fb-ex20" role="alert" hidden></div>
+  </section>
+
+  <!-- 21 -->
+  <section class="exo" id="ex21">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 21 — Footer</h2>
+    <p>Écris le HTML d’un <strong><code>&lt;footer&gt;</code></strong> contenant le texte « © 2026 Mon site ».</p>
+    <label for="code21">Ton code HTML :</label>
+    <textarea id="code21" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(21)">Vérifier</button>
+    <div class="feedback" id="fb-ex21" role="alert" hidden></div>
+  </section>
+
+  <!-- 22 -->
+  <section class="exo" id="ex22">
+    <span class="part">Partie 8 — Images et médias</span>
+    <h2>Exercice 22 — Image décorative</h2>
+    <p>Écris le HTML d’une <strong>image</strong> avec <code>src="deco.png"</code> et un attribut <code>alt</code> <strong>vide</strong> (image décorative).</p>
+    <label for="code22">Ton code HTML :</label>
+    <textarea id="code22" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(22)">Vérifier</button>
+    <div class="feedback" id="fb-ex22" role="alert" hidden></div>
+  </section>
+
+  <!-- 23 -->
+  <section class="exo" id="ex23">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 23 — Bouton</h2>
+    <p>Écris le HTML d’un <strong>bouton</strong> (<code>&lt;button&gt;</code>) avec le texte « Envoyer ».</p>
+    <label for="code23">Ton code HTML :</label>
+    <textarea id="code23" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(23)">Vérifier</button>
+    <div class="feedback" id="fb-ex23" role="alert" hidden></div>
+  </section>
+
+  <!-- 24 -->
+  <section class="exo" id="ex24">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 24 — Champ email</h2>
+    <p>Écris le HTML d’un <strong>champ de formulaire</strong> de type <strong>email</strong> (<code>input type="email"</code>).</p>
+    <label for="code24">Ton code HTML :</label>
+    <textarea id="code24" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(24)">Vérifier</button>
+    <div class="feedback" id="fb-ex24" role="alert" hidden></div>
+  </section>
+
+  <!-- 25 -->
+  <section class="exo" id="ex25">
+    <span class="part">Partie 9 — Commentaires et attributs</span>
+    <h2>Exercice 25 — Commentaire HTML</h2>
+    <p>Écris une ligne de <strong>commentaire HTML</strong> contenant le texte « Ceci est un commentaire ».</p>
+    <label for="code25">Ton code HTML :</label>
+    <textarea id="code25" class="code" spellcheck="false" placeholder="<!-- ... -->"></textarea>
+    <button type="button" class="verify" onclick="check(25)">Vérifier</button>
+    <div class="feedback" id="fb-ex25" role="alert" hidden></div>
+  </section>
+
+  <!-- 26 -->
+  <section class="exo" id="ex26">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 26 — Élément avec un id</h2>
+    <p>Écris le HTML d’un élément (par exemple un <code>&lt;div&gt;</code> ou un <code>&lt;header&gt;</code>) avec l’attribut <code>id="header"</code>.</p>
+    <label for="code26">Ton code HTML :</label>
+    <textarea id="code26" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(26)">Vérifier</button>
+    <div class="feedback" id="fb-ex26" role="alert" hidden></div>
+  </section>
+
+  <!-- 27 -->
+  <section class="exo" id="ex27">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 27 — Formulaire avec action et method</h2>
+    <p>Écris le HTML d’un <strong>formulaire</strong> avec <code>action="/recherche"</code> et <code>method="get"</code> (le contenu peut être vide ou contenir un input).</p>
+    <label for="code27">Ton code HTML :</label>
+    <textarea id="code27" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(27)">Vérifier</button>
+    <div class="feedback" id="fb-ex27" role="alert" hidden></div>
+  </section>
+
+  <!-- 28 -->
+  <section class="exo" id="ex28">
+    <span class="part">Partie 10 — Page complète</span>
+    <h2>Exercice 28 — Structure minimale d’une page</h2>
+    <p>Écris la <strong>structure minimale</strong> d’une page HTML5 : <code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> (avec au moins <code>&lt;meta charset="UTF-8"&gt;</code> et <code>&lt;title&gt;Ma page&lt;/title&gt;</code>), et <code>&lt;body&gt;</code> contenant un paragraphe « Bonjour ».</p>
+    <label for="code28">Ton code HTML :</label>
+    <textarea id="code28" class="code" spellcheck="false" style="min-height: 140px;"></textarea>
+    <button type="button" class="verify" onclick="check(28)">Vérifier</button>
+    <div class="feedback" id="fb-ex28" role="alert" hidden></div>
+  </section>
+
+  <!-- 29 -->
+  <section class="exo" id="ex29">
+    <span class="part">Partie 10</span>
+    <h2>Exercice 29 — Titre de niveau 3</h2>
+    <p>Écris le HTML d’un <strong>titre de niveau 3</strong> (<code>&lt;h3&gt;</code>) avec le texte « Sous-titre ».</p>
+    <label for="code29">Ton code HTML :</label>
+    <textarea id="code29" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(29)">Vérifier</button>
+    <div class="feedback" id="fb-ex29" role="alert" hidden></div>
+  </section>
+
+  <!-- 30 -->
+  <section class="exo" id="ex30">
+    <span class="part">Partie 10</span>
+    <h2>Exercice 30 — Liste à puces avec des liens</h2>
+    <p>Écris le HTML d’une <strong>liste à puces</strong> (<code>&lt;ul&gt;</code>) contenant <strong>deux liens</strong> : le premier vers <code>page1.html</code> avec le texte « Page 1 », le second vers <code>page2.html</code> avec le texte « Page 2 ».</p>
+    <label for="code30">Ton code HTML :</label>
+    <textarea id="code30" class="code" spellcheck="false"></textarea>
+    <button type="button" class="verify" onclick="check(30)">Vérifier</button>
+    <div class="feedback" id="fb-ex30" role="alert" hidden></div>
+  </section>
+
+  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--card); color: var(--muted); font-size: 0.9rem;">
+    <p>Tu peux écrire les balises en minuscules ou majuscules. Les espaces et retours à la ligne en trop ne sont pas pénalisés.</p>
+  </footer>
+
+  <script>
+    var STORAGE_KEY = 'qcm-html-ecriture-progress';
+    var results = {};
+
+    function parseFragment(html) {
+      var div = document.createElement('div');
+      div.innerHTML = html.replace(/<!DOCTYPE[^>]*>/gi, '').replace(/<!--[\s\S]*?-->/g, '');
+      return div;
+    }
+
+    function hasTag(html, tag) {
+      var re = new RegExp('<\\s*' + tag + '\\s[^>]*>|<' + tag + '>', 'i');
+      return re.test(html);
+    }
+
+    var validators = {
+      1: function (html) {
+        var d = parseFragment(html);
+        var p = d.querySelector('p');
+        return p && /Bonjour\s+le\s+monde/i.test((p.textContent || '').replace(/\s+/g, ' ').trim());
+      },
+      2: function (html) {
+        var d = parseFragment(html);
+        var h1 = d.querySelector('h1');
+        return h1 && /Mon\s+site/i.test((h1.textContent || '').replace(/\s+/g, ' ').trim());
+      },
+      3: function (html) {
+        var d = parseFragment(html);
+        var ps = d.querySelectorAll('p');
+        if (ps.length < 2) return false;
+        var t = (ps[0].textContent || '').replace(/\s+/g, ' ').trim();
+        var t2 = (ps[1].textContent || '').replace(/\s+/g, ' ').trim();
+        return /Premier\s+paragraphe/i.test(t) && /Deuxi[eè]me\s+paragraphe/i.test(t2);
+      },
+      4: function (html) {
+        var d = parseFragment(html);
+        var a = d.querySelector('a');
+        if (!a) return false;
+        var href = (a.getAttribute('href') || '').trim();
+        var text = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        return /example\.com/i.test(href) && /Aller\s+sur\s+Example/i.test(text);
+      },
+      5: function (html) {
+        var d = parseFragment(html);
+        var img = d.querySelector('img');
+        if (!img) return false;
+        var src = (img.getAttribute('src') || '').trim();
+        var alt = img.getAttribute('alt');
+        return /photo\.jpg/i.test(src) && alt !== null && /Une\s+photo/i.test(alt);
+      },
+      6: function (html) {
+        var d = parseFragment(html);
+        var a = d.querySelector('a');
+        if (!a) return false;
+        var href = (a.getAttribute('href') || '').trim();
+        var target = (a.getAttribute('target') || '').trim().toLowerCase();
+        var text = (a.textContent || '').replace(/\s+/g, ' ').trim();
+        return /google\.com/i.test(href) && (target === '_blank') && /Ouvrir\s+Google/i.test(text);
+      },
+      7: function (html) {
+        var d = parseFragment(html);
+        var ul = d.querySelector('ul');
+        var lis = d.querySelectorAll('ul li');
+        if (!ul || lis.length < 3) return false;
+        var text = (d.textContent || '').replace(/\s+/g, ' ');
+        return /Pomme/i.test(text) && /Banane/i.test(text) && /Orange/i.test(text);
+      },
+      8: function (html) {
+        var d = parseFragment(html);
+        var ol = d.querySelector('ol');
+        var lis = d.querySelectorAll('ol li');
+        if (!ol || lis.length < 2) return false;
+        var text = (d.textContent || '').replace(/\s+/g, ' ');
+        return /[Ee]tape\s+1/i.test(text) && /[Ee]tape\s+2/i.test(text);
+      },
+      9: function (html) {
+        var d = parseFragment(html);
+        var strong = d.querySelector('strong');
+        var text = (d.textContent || '').replace(/\s+/g, ' ');
+        return strong && /tr[eè]s/i.test((strong.textContent || '').trim()) && /Ceci\s+est/i.test(text) && /important/i.test(text);
+      },
+      10: function (html) {
+        var d = parseFragment(html);
+        var form = d.querySelector('form');
+        var input = d.querySelector('input[type="text"]');
+        return form && input;
+      },
+      11: function (html) {
+        var d = parseFragment(html);
+        var label = d.querySelector('label');
+        var input = d.querySelector('input');
+        if (!label || !input) return false;
+        var forId = (label.getAttribute('for') || '').trim();
+        var id = (input.getAttribute('id') || '').trim();
+        return forId === 'prenom' && id === 'prenom' && /Pr[eé]nom/i.test((label.textContent || '').trim());
+      },
+      12: function (html) {
+        var d = parseFragment(html);
+        var input = d.querySelector('input[type="text"]');
+        return input && input.hasAttribute('required');
+      },
+      13: function (html) {
+        var d = parseFragment(html);
+        var h2 = d.querySelector('h2');
+        var p = d.querySelector('p');
+        if (!h2 || !p) return false;
+        return /Bienvenue/i.test((h2.textContent || '').trim()) && /Voici\s+mon\s+site/i.test((p.textContent || '').replace(/\s+/g, ' ').trim());
+      },
+      14: function (html) {
+        var d = parseFragment(html);
+        var main = d.querySelector('main');
+        return main && main.querySelector('p') && /Contenu\s+principal/i.test((main.textContent || '').replace(/\s+/g, ' '));
+      },
+      15: function (html) {
+        var d = parseFragment(html);
+        var divs = d.querySelectorAll('div');
+        for (var i = 0; i < divs.length; i++) {
+          var c = (divs[i].className || '').trim().split(/\s+/);
+          if (c.indexOf('container') >= 0) return true;
+        }
+        return false;
+      },
+      16: function (html) {
+        var d = parseFragment(html);
+        var table = d.querySelector('table');
+        var cells = d.querySelectorAll('table td, table th');
+        return table && cells.length >= 2 && (/Nom/i.test(html) && /[Aâ]ge/i.test(html));
+      },
+      17: function (html) {
+        var d = parseFragment(html);
+        var ths = d.querySelectorAll('table th');
+        return ths.length >= 2 && (/Produit/i.test(html) && /Prix/i.test(html));
+      },
+      18: function (html) {
+        var d = parseFragment(html);
+        var table = d.querySelector('table');
+        var rows = d.querySelectorAll('table tr');
+        var cells = d.querySelectorAll('table td, table th');
+        return table && rows.length >= 2 && cells.length >= 4;
+      },
+      19: function (html) {
+        var d = parseFragment(html);
+        var a = d.querySelector('a');
+        if (!a) return false;
+        var href = (a.getAttribute('href') || '').trim();
+        return href === '#section1' || href.toLowerCase() === '#section1';
+      },
+      20: function (html) {
+        var d = parseFragment(html);
+        var nav = d.querySelector('nav');
+        var a = nav ? nav.querySelector('a') : null;
+        if (!nav || !a) return false;
+        var href = (a.getAttribute('href') || '').trim();
+        return /index\.html/i.test(href) && /Accueil/i.test((a.textContent || '').trim());
+      },
+      21: function (html) {
+        var d = parseFragment(html);
+        var footer = d.querySelector('footer');
+        return footer && /©\s*2026/i.test((footer.textContent || '').replace(/\s+/g, ' ')) && /Mon\s+site/i.test((footer.textContent || '').replace(/\s+/g, ' '));
+      },
+      22: function (html) {
+        var d = parseFragment(html);
+        var img = d.querySelector('img');
+        if (!img) return false;
+        var src = (img.getAttribute('src') || '').trim();
+        var alt = img.getAttribute('alt');
+        return /deco\.png/i.test(src) && (alt === '' || alt === null);
+      },
+      23: function (html) {
+        var d = parseFragment(html);
+        var btn = d.querySelector('button');
+        return btn && /Envoyer/i.test((btn.textContent || '').trim());
+      },
+      24: function (html) {
+        var d = parseFragment(html);
+        var input = d.querySelector('input[type="email"]');
+        return !!input;
+      },
+      25: function (html) {
+        return /<!--[\s\S]*Ceci\s+est\s+un\s+commentaire[\s\S]*?-->/.test(html) || /<!--[\s\S]*?-->/.test(html) && /Ceci\s+est\s+un\s+commentaire/i.test(html);
+      },
+      26: function (html) {
+        var d = parseFragment(html);
+        var el = d.querySelector('[id="header"]');
+        return !!el;
+      },
+      27: function (html) {
+        var d = parseFragment(html);
+        var form = d.querySelector('form');
+        if (!form) return false;
+        var action = (form.getAttribute('action') || '').trim();
+        var method = (form.getAttribute('method') || '').trim().toLowerCase();
+        return /\/recherche/i.test(action) && method === 'get';
+      },
+      28: function (html) {
+        var raw = html.replace(/\s+/g, ' ');
+        var hasDoctype = /<!DOCTYPE\s+html\s*>/i.test(raw);
+        var hasHtml = /<html/i.test(raw);
+        var hasHead = /<head/i.test(raw);
+        var hasMeta = /<meta[^>]*charset\s*=\s*["']?UTF-8/i.test(raw);
+        var hasTitle = /<title[^>]*>[\s\S]*?Ma\s+page[\s\S]*?<\/title>/i.test(raw) || (/<title/i.test(raw) && /Ma\s+page/i.test(raw));
+        var hasBody = /<body/i.test(raw);
+        var hasP = /<p[^>]*>[\s\S]*?Bonjour[\s\S]*?<\/p>/i.test(raw) || (/<p/i.test(raw) && /Bonjour/i.test(raw));
+        return hasDoctype && hasHtml && hasHead && hasMeta && hasTitle && hasBody && hasP;
+      },
+      29: function (html) {
+        var d = parseFragment(html);
+        var h3 = d.querySelector('h3');
+        return h3 && /Sous-titre/i.test((h3.textContent || '').trim());
+      },
+      30: function (html) {
+        var d = parseFragment(html);
+        var ul = d.querySelector('ul');
+        var links = ul ? ul.querySelectorAll('a') : [];
+        if (!ul || links.length < 2) return false;
+        var hrefs = [];
+        var texts = [];
+        links.forEach(function (a) {
+          hrefs.push((a.getAttribute('href') || '').trim());
+          texts.push((a.textContent || '').trim());
+        });
+        var hasPage1 = hrefs.some(function (h) { return /page1\.html/i.test(h); });
+        var hasPage2 = hrefs.some(function (h) { return /page2\.html/i.test(h); });
+        var hasText1 = texts.some(function (t) { return /Page\s+1/i.test(t); });
+        var hasText2 = texts.some(function (t) { return /Page\s+2/i.test(t); });
+        return hasPage1 && hasPage2 && hasText1 && hasText2;
+      }
+    };
+
+    var SOLUTIONS = {
+      1: '<p>Bonjour le monde</p>',
+      2: '<h1>Mon site</h1>',
+      3: '<p>Premier paragraphe</p>\n<p>Deuxième paragraphe</p>',
+      4: '<a href="https://example.com">Aller sur Example</a>',
+      5: '<img src="photo.jpg" alt="Une photo">',
+      6: '<a href="https://google.com" target="_blank">Ouvrir Google</a>',
+      7: '<ul>\n  <li>Pomme</li>\n  <li>Banane</li>\n  <li>Orange</li>\n</ul>',
+      8: '<ol>\n  <li>Étape 1</li>\n  <li>Étape 2</li>\n</ol>',
+      9: '<p>Ceci est <strong>très</strong> important.</p>',
+      10: '<form>\n  <input type="text">\n</form>',
+      11: '<label for="prenom">Prénom</label>\n<input type="text" id="prenom">',
+      12: '<input type="text" required>',
+      13: '<h2>Bienvenue</h2>\n<p>Voici mon site.</p>',
+      14: '<main>\n  <p>Contenu principal</p>\n</main>',
+      15: '<div class="container">\n</div>',
+      16: '<table>\n  <tr><td>Nom</td><td>Âge</td></tr>\n</table>',
+      17: '<table>\n  <tr><th>Produit</th><th>Prix</th></tr>\n</table>',
+      18: '<table>\n  <tr><td>A</td><td>B</td></tr>\n  <tr><td>C</td><td>D</td></tr>\n</table>',
+      19: '<a href="#section1">Aller à la section 1</a>',
+      20: '<nav>\n  <a href="index.html">Accueil</a>\n</nav>',
+      21: '<footer>© 2026 Mon site</footer>',
+      22: '<img src="deco.png" alt="">',
+      23: '<button>Envoyer</button>',
+      24: '<input type="email">',
+      25: '<!-- Ceci est un commentaire -->',
+      26: '<div id="header"></div>',
+      27: '<form action="/recherche" method="get">\n</form>',
+      28: '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>Ma page</title>\n</head>\n<body>\n  <p>Bonjour</p>\n</body>\n</html>',
+      29: '<h3>Sous-titre</h3>',
+      30: '<ul>\n  <li><a href="page1.html">Page 1</a></li>\n  <li><a href="page2.html">Page 2</a></li>\n</ul>'
+    };
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function getIncorrectMessage(num) {
+      var msg = 'Pas encore. Vérifie la consigne et ton code.';
+      var solution = SOLUTIONS[num];
+      if (solution) {
+        msg += '<span class="solution">Exemple de réponse : <code>' + escapeHtml(solution) + '</code></span>';
+      }
+      return msg;
+    }
+
+    function check(num) {
+      if (results[num] !== undefined) return;
+      var textarea = document.getElementById('code' + num);
+      var html = (textarea.value || '').trim();
+      var validator = validators[num];
+      var ok = validator ? validator(html) : false;
+      results[num] = ok;
+
+      var feedback = document.getElementById('fb-ex' + num);
+      feedback.hidden = false;
+      feedback.className = 'feedback ' + (ok ? 'correct' : 'incorrect');
+      if (ok) {
+        feedback.textContent = 'Bravo, c\'est correct !';
+      } else {
+        feedback.innerHTML = getIncorrectMessage(num);
+      }
+      feedback.setAttribute('aria-live', 'polite');
+
+      textarea.disabled = false;
+      var btn = textarea.closest('section').querySelector('button.verify');
+      if (btn) btn.disabled = true;
+      updateScore();
+      saveProgress();
+      showRestartIfDone();
+    }
+
+    function updateScore() {
+      var total = Object.keys(results).reduce(function (sum, k) { return sum + (results[k] ? 1 : 0); }, 0);
+      document.getElementById('score').textContent = total;
+      document.getElementById('progress').value = total;
+    }
+
+    function saveProgress() {
+      var codes = {};
+      for (var n = 1; n <= 30; n++) {
+        var ta = document.getElementById('code' + n);
+        if (ta) codes['ex' + n] = ta.value;
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ results: results, codes: codes }));
+      } catch (e) {}
+    }
+
+    function loadProgress() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        var data = JSON.parse(raw);
+        if (data.results && typeof data.results === 'object') results = data.results;
+        var codes = data.codes || {};
+        for (var n = 1; n <= 30; n++) {
+          var key = 'ex' + n;
+          if (codes[key] !== undefined) {
+            var ta = document.getElementById('code' + n);
+            if (ta) ta.value = codes[key];
+          }
+          if (results[n] !== undefined) {
+            var fb = document.getElementById('fb-ex' + n);
+            var btn = document.querySelector('#ex' + n + ' button.verify');
+            if (fb) {
+              fb.hidden = false;
+              fb.className = 'feedback ' + (results[n] ? 'correct' : 'incorrect');
+              if (results[n]) {
+                fb.textContent = 'Bravo, c\'est correct !';
+              } else {
+                fb.innerHTML = getIncorrectMessage(n);
+              }
+            }
+            if (btn) btn.disabled = true;
+          }
+        }
+      } catch (e) {}
+      updateScore();
+      showRestartIfDone();
+    }
+
+    function showRestartIfDone() {
+      var done = Object.keys(results).length === 30;
+      var area = document.getElementById('restart-area');
+      var msg = document.getElementById('final-message');
+      if (!done) { area.hidden = true; return; }
+      area.hidden = false;
+      var score = Object.keys(results).reduce(function (sum, k) { return sum + (results[k] ? 1 : 0); }, 0);
+      if (score === 30) msg.textContent = 'Félicitations ! Tu as réussi les 30 exercices. Tu peux recommencer pour t\'entraîner.';
+      else msg.textContent = 'Tu as terminé les 30 exercices avec un score de ' + score + '/30. Tu peux recommencer pour t\'améliorer.';
+    }
+
+    document.getElementById('restart-btn').addEventListener('click', function () {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      location.reload();
+    });
+
+    loadProgress();
+  </script>
+</body>
+</html>

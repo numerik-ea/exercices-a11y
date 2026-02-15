@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 défis accessibilité — Découverte du web pour tous</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --success: #4ade80;
+      --error: #f87171;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 1rem;
+      max-width: 52rem;
+      margin-inline: auto;
+    }
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.25rem;
+      color: var(--accent);
+    }
+    .intro {
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .score-bar {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .score-bar progress {
+      flex: 1;
+      min-width: 120px;
+      height: 12px;
+      border-radius: 6px;
+      background: var(--card);
+    }
+    .score-bar progress::-webkit-progress-bar { background: var(--card); border-radius: 6px; }
+    .score-bar progress::-webkit-progress-value { background: var(--accent); border-radius: 6px; }
+    .score-bar progress::-moz-progress-bar { background: var(--accent); border-radius: 6px; }
+    .score-text { font-weight: bold; color: var(--accent); }
+    section.exo {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+    section.exo h2 {
+      font-size: 1rem;
+      margin: 0 0 0.5rem 0;
+      color: var(--text);
+    }
+    section.exo .part {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .options label {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.6rem 0.8rem;
+      background: var(--bg);
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .options label:hover { border-color: var(--muted); }
+    .options input:checked + span { font-weight: 600; }
+    .options input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .options label.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
+    .options label.incorrect { border-color: var(--error); background: rgba(248, 113, 113, 0.15); }
+    .options input[type="checkbox"] { margin-right: 0.5rem; }
+    .options input[type="radio"] { margin-right: 0.5rem; }
+    .feedback {
+      margin-top: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .feedback.correct { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+    .feedback.incorrect { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+    .feedback .explain { display: block; margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
+.feedback.explain { color: var(--muted); margin-top: 0.25rem; }
+    button.verify {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.verify:hover { background: var(--accent-hover); }
+    button.verify:disabled { opacity: 0.6; cursor: not-allowed; }
+    .input-text { width: 100%; max-width: 20rem; padding: 0.5rem; border-radius: 6px; border: 2px solid var(--bg); background: var(--bg); color: var(--text); margin-top: 0.25rem; }
+    .input-text:focus { outline: none; border-color: var(--accent); }
+    code { background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    .match-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.4rem 0; flex-wrap: wrap; }
+    .match-row select { padding: 0.35rem 0.5rem; border-radius: 6px; background: var(--bg); color: var(--text); border: 2px solid var(--bg); }
+    .match-row select:focus { border-color: var(--accent); outline: none; }
+    .restart-area {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--success);
+      text-align: center;
+    }
+    .restart-area p { margin: 0 0 1rem 0; font-size: 1.1rem; }
+    #restart-btn { font-size: 1rem; padding: 0.75rem 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>30 défis accessibilité</h1>
+  <p class="intro">Niveau 3ème — Découvre pourquoi et comment rendre le web utilisable par tout le monde. Choisis ta réponse puis clique sur « Vérifier ».</p>
+
+  <div class="score-bar" role="status" aria-live="polite">
+    <span class="score-text">Score : <span id="score">0</span>/30</span>
+    <progress id="progress" value="0" max="30" aria-label="Exercices réussis"></progress>
+  </div>
+
+  <!-- Partie 1 -->
+  <section class="exo" id="ex1" data-answer="b">
+    <span class="part">Partie 1 — C'est quoi l'accessibilité ?</span>
+    <h2>Exercice 1 — Définir l'accessibilité</h2>
+    <p>Qu'est-ce qu'un <strong>site web accessible</strong> ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex1" value="a"><span>Un site qui charge très vite</span></label>
+      <label><input type="radio" name="ex1" value="b"><span>Un site utilisable par le plus de personnes possible, y compris avec un handicap ou des difficultés</span></label>
+      <label><input type="radio" name="ex1" value="c"><span>Un site réservé aux personnes handicapées</span></label>
+      <label><input type="radio" name="ex1" value="d"><span>Un site sans images</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex1')">Vérifier</button>
+    <div class="feedback" id="fb-ex1" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex2" data-answer="a,b,d">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 2 — Se mettre à la place de l'autre</h2>
+    <p>Quelles situations peuvent rendre un site difficile à utiliser ? (choisis toutes les bonnes réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex2" value="a"><span>Mauvaise connexion internet</span></label>
+      <label><input type="checkbox" name="ex2" value="b"><span>Handicap visuel (malvoyant ou non-voyant)</span></label>
+      <label><input type="checkbox" name="ex2" value="c"><span>Avoir un ordinateur récent</span></label>
+      <label><input type="checkbox" name="ex2" value="d"><span>Petit écran (téléphone) ou zoom important</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex2')">Vérifier</button>
+    <div class="feedback" id="fb-ex2" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex3" data-answer="a">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 3 — Les chiffres qui comptent</h2>
+    <p>En France, les sites publics (administrations, collectivités) doivent être accessibles. Pourquoi l'accessibilité concerne tout le monde ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex3" value="a"><span>Parce que tout le monde peut avoir une situation de handicap temporaire (bras cassé, écran cassé) ou des difficultés (âge, fatigue)</span></label>
+      <label><input type="radio" name="ex3" value="b"><span>Parce que la loi l'impose uniquement aux handicapés</span></label>
+      <label><input type="radio" name="ex3" value="c"><span>Parce que les sites sans accessibilité sont interdits</span></label>
+      <label><input type="radio" name="ex3" value="d"><span>Parce que les moteurs de recherche pénalisent les autres sites</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex3')">Vérifier</button>
+    <div class="feedback" id="fb-ex3" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 2 -->
+  <section class="exo" id="ex4" data-answer="b">
+    <span class="part">Partie 2 — Texte et lisibilité</span>
+    <h2>Exercice 4 — Taille du texte</h2>
+    <p>Une règle d'accessibilité dit qu'un site doit permettre d'agrandir le texte jusqu'à <strong>200 %</strong> sans casser la page. Pourquoi ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex4" value="a"><span>Pour que le site soit plus beau</span></label>
+      <label><input type="radio" name="ex4" value="b"><span>Pour que les personnes malvoyantes ou qui ont besoin de gros caractères puissent lire</span></label>
+      <label><input type="radio" name="ex4" value="c"><span>Pour économiser la batterie du téléphone</span></label>
+      <label><input type="radio" name="ex4" value="d"><span>Pour que les textes s'affichent plus vite</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex4')">Vérifier</button>
+    <div class="feedback" id="fb-ex4" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex5" data-answer="c">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 5 — Contraste des couleurs</h2>
+    <p>Quelle combinaison est la plus lisible pour tout le monde ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex5" value="a"><span>Gris clair sur fond blanc</span></label>
+      <label><input type="radio" name="ex5" value="b"><span>Jaune pâle sur blanc</span></label>
+      <label><input type="radio" name="ex5" value="c"><span>Noir sur blanc (ou texte foncé sur fond clair avec un bon contraste)</span></label>
+      <label><input type="radio" name="ex5" value="d"><span>Bleu clair sur gris clair</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex5')">Vérifier</button>
+    <div class="feedback" id="fb-ex5" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex6" data-answer="b">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 6 — Police et longueur de ligne</h2>
+    <p>Pourquoi une ligne de texte trop longue (par ex. 150 caractères sur une seule ligne) gêne-t-elle la lecture ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex6" value="a"><span>Parce que ça prend trop de place à l'écran</span></label>
+      <label><input type="radio" name="ex6" value="b"><span>Parce que l'œil a du mal à revenir au début de la ligne suivante et ça fatigue</span></label>
+      <label><input type="radio" name="ex6" value="c"><span>Parce que le texte charge plus lentement</span></label>
+      <label><input type="radio" name="ex6" value="d"><span>Parce que les moteurs de recherche n'aiment pas ça</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex6')">Vérifier</button>
+    <div class="feedback" id="fb-ex6" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 3 -->
+  <section class="exo" id="ex7" data-answer="b">
+    <span class="part">Partie 3 — Images et médias</span>
+    <h2>Exercice 7 — Texte alternatif (attribut alt)</h2>
+    <p>À quoi sert l'attribut <code>alt</code> sur une image en HTML ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex7" value="a"><span>À afficher une légende sous l'image pour tout le monde</span></label>
+      <label><input type="radio" name="ex7" value="b"><span>À décrire l'image pour les personnes qui ne voient pas (lecteur d'écran) ou quand l'image ne charge pas</span></label>
+      <label><input type="radio" name="ex7" value="c"><span>À améliorer le référencement Google uniquement</span></label>
+      <label><input type="radio" name="ex7" value="d"><span>À réduire la taille du fichier image</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex7')">Vérifier</button>
+    <div class="feedback" id="fb-ex7" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex8" data-answer="a">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 8 — Images décoratives</h2>
+    <p>Pour une image <strong>purement décorative</strong> (qui n'apporte pas d'information), quelle valeur faut-il mettre dans le <code>alt</code> ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex8" value="a"><span><code>alt=""</code> (vide) pour que le lecteur d'écran l'ignore</span></label>
+      <label><input type="radio" name="ex8" value="b"><span>Une longue description pour être sûr que tout soit compris</span></label>
+      <label><input type="radio" name="ex8" value="c"><span><code>alt="image"</code></span></label>
+      <label><input type="radio" name="ex8" value="d"><span>On ne met pas d'attribut alt</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex8')">Vérifier</button>
+    <div class="feedback" id="fb-ex8" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex9" data-answer="a,b,c">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 9 — Sous-titres et transcriptions</h2>
+    <p>Pour qui les sous-titres des vidéos sont-ils utiles ? (plusieurs réponses possibles)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex9" value="a"><span>Personnes sourdes ou malentendantes</span></label>
+      <label><input type="checkbox" name="ex9" value="b"><span>Personnes qui regardent sans le son (transport, bureau)</span></label>
+      <label><input type="checkbox" name="ex9" value="c"><span>Personnes qui apprennent une langue</span></label>
+      <label><input type="checkbox" name="ex9" value="d"><span>Uniquement les personnes aveugles</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex9')">Vérifier</button>
+    <div class="feedback" id="fb-ex9" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 4 -->
+  <section class="exo" id="ex10" data-answer="b">
+    <span class="part">Partie 4 — Liens et boutons</span>
+    <h2>Exercice 10 — Texte de lien explicite</h2>
+    <p>Pourquoi « Cliquez ici » est un mauvais texte de lien ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex10" value="a"><span>Parce que c'est en français et pas en anglais</span></label>
+      <label><input type="radio" name="ex10" value="b"><span>Parce qu'on ne sait pas où mène le lien ; les lecteurs d'écran listent les liens et « Cliquez ici » n'apporte pas d'info</span></label>
+      <label><input type="radio" name="ex10" value="c"><span>Parce que les liens doivent toujours être en bleu</span></label>
+      <label><input type="radio" name="ex10" value="d"><span>Parce que ça ralentit le chargement</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex10')">Vérifier</button>
+    <div class="feedback" id="fb-ex10" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex11" data-answer="c">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 11 — Liens qui s'ouvrent dans un nouvel onglet</h2>
+    <p>Si un lien s'ouvre dans un nouvel onglet (<code>target="_blank"</code>), quelle précaution d'accessibilité faut-il prendre ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex11" value="a"><span>Ne jamais ouvrir dans un nouvel onglet</span></label>
+      <label><input type="radio" name="ex11" value="b"><span>Mettre le lien en rouge</span></label>
+      <label><input type="radio" name="ex11" value="c"><span>Prévenir dans le texte du lien (ex. « Voir les tarifs (nouvel onglet) ») pour que l'utilisateur sache que le contexte change</span></label>
+      <label><input type="radio" name="ex11" value="d"><span>Ajouter une musique de fond</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex11')">Vérifier</button>
+    <div class="feedback" id="fb-ex11" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex12" data-answer="a">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 12 — Boutons vs liens</h2>
+    <p>Quelle est la règle principale : quand utiliser un <strong>lien</strong> (<code>&lt;a&gt;</code>) et quand un <strong>bouton</strong> (<code>&lt;button&gt;</code>) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex12" value="a"><span>Lien = aller vers une page ou une ressource ; Bouton = action sur la page (envoyer, ouvrir un menu, etc.)</span></label>
+      <label><input type="radio" name="ex12" value="b"><span>Lien = à l'intérieur du site ; Bouton = vers un autre site</span></label>
+      <label><input type="radio" name="ex12" value="c"><span>On peut indifféremment utiliser un <code>&lt;div&gt;</code> avec un clic JavaScript à la place</span></label>
+      <label><input type="radio" name="ex12" value="d"><span>Bouton = uniquement pour les formulaires</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex12')">Vérifier</button>
+    <div class="feedback" id="fb-ex12" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 5 -->
+  <section class="exo" id="ex13" data-answer="b">
+    <span class="part">Partie 5 — Formulaires</span>
+    <h2>Exercice 13 — Labels et champs</h2>
+    <p>Comment associe-t-on correctement un libellé (label) à un champ de formulaire en HTML ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex13" value="a"><span>En mettant le texte juste à côté du champ, sans balise particulière</span></label>
+      <label><input type="radio" name="ex13" value="b"><span>Avec <code>&lt;label for="id-du-champ"&gt;</code> et <code>id</code> sur le champ, pour que cliquer sur le label active le champ</span></label>
+      <label><input type="radio" name="ex13" value="c"><span>Avec un attribut <code>label="Prénom"</code> sur l'input</span></label>
+      <label><input type="radio" name="ex13" value="d"><span>En mettant le libellé dans un <code>&lt;title&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex13')">Vérifier</button>
+    <div class="feedback" id="fb-ex13" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex14" data-answer="b">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 14 — Messages d'erreur</h2>
+    <p>Pourquoi indiquer une erreur de formulaire <strong>uniquement par la couleur</strong> (ex. bordure rouge) est insuffisant ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex14" value="a"><span>Parce que le rouge est une couleur agressive</span></label>
+      <label><input type="radio" name="ex14" value="b"><span>Parce que les daltoniens ou les lecteurs d'écran ne perçoivent pas l'info ; il faut aussi un texte explicite (ex. « Ce champ est obligatoire »)</span></label>
+      <label><input type="radio" name="ex14" value="c"><span>Parce que ça ralentit le chargement</span></label>
+      <label><input type="radio" name="ex14" value="d"><span>Parce que les formulaires doivent être en noir et blanc</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex14')">Vérifier</button>
+    <div class="feedback" id="fb-ex14" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex15" data-answer="a">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 15 — Champs obligatoires</h2>
+    <p>En HTML, comment indique-t-on qu'un champ de formulaire est <strong>obligatoire</strong> ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex15" value="a"><span>Avec l'attribut <code>required</code> sur le champ (et idéalement aussi une indication visible dans le label, ex. « Email * »)</span></label>
+      <label><input type="radio" name="ex15" value="b"><span>Avec <code>optional="false"</code></span></label>
+      <label><input type="radio" name="ex15" value="c"><span>En mettant le champ en gras</span></label>
+      <label><input type="radio" name="ex15" value="d"><span>Avec un attribut <code>obligatoire</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex15')">Vérifier</button>
+    <div class="feedback" id="fb-ex15" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 6 -->
+  <section class="exo" id="ex16" data-answer="c">
+    <span class="part">Partie 6 — Structure de la page</span>
+    <h2>Exercice 16 — Titres (H1, H2, H3…)</h2>
+    <p>Pourquoi la structure des titres (H1, H2, H3…) est-elle importante pour l'accessibilité ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex16" value="a"><span>Parce que les titres doivent être en gras</span></label>
+      <label><input type="radio" name="ex16" value="b"><span>Parce que ça améliore la vitesse de chargement</span></label>
+      <label><input type="radio" name="ex16" value="c"><span>Parce que les lecteurs d'écran permettent de naviguer de titre en titre ; une hiérarchie logique (un H1, puis des H2, etc.) aide à comprendre la page</span></label>
+      <label><input type="radio" name="ex16" value="d"><span>Parce que Google exige au moins 5 titres par page</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex16')">Vérifier</button>
+    <div class="feedback" id="fb-ex16" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex17" data-answer="b">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 17 — Listes à puces et numérotées</h2>
+    <p>Pourquoi utiliser les balises <code>&lt;ul&gt;</code> (liste à puces) ou <code>&lt;ol&gt;</code> (liste numérotée) au lieu d'écrire des tirets ou des numéros « à la main » dans un paragraphe ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex17" value="a"><span>Parce que c'est plus joli</span></label>
+      <label><input type="radio" name="ex17" value="b"><span>Parce que le lecteur d'écran annonce « liste de 3 éléments » et permet de naviguer d'élément en élément ; la structure sémantique aide tout le monde</span></label>
+      <label><input type="radio" name="ex17" value="c"><span>Parce que les listes HTML chargent plus vite</span></label>
+      <label><input type="radio" name="ex17" value="d"><span>Parce que les moteurs de recherche n'indexent pas les tirets</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex17')">Vérifier</button>
+    <div class="feedback" id="fb-ex17" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex18" data-answer="main">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 18 — Landmarks (zones de la page)</h2>
+    <p>Quelle balise HTML5 doit contenir <strong>le contenu principal</strong> de la page (et pas le menu ni le pied de page) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex18" value="header"><span><code>&lt;header&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="nav"><span><code>&lt;nav&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="main"><span><code>&lt;main&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="footer"><span><code>&lt;footer&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex18')">Vérifier</button>
+    <div class="feedback" id="fb-ex18" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 7 -->
+  <section class="exo" id="ex19" data-answer="b">
+    <span class="part">Partie 7 — Clavier et navigation</span>
+    <h2>Exercice 19 — Tout faire au clavier</h2>
+    <p>Pourquoi un site doit-il être utilisable <strong>uniquement au clavier</strong> (sans souris) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex19" value="a"><span>Parce que la souris est interdite sur les sites publics</span></label>
+      <label><input type="radio" name="ex19" value="b"><span>Parce que certaines personnes ne peuvent pas utiliser la souris (handicap moteur, préférence) ; la touche Tab permet d'avancer d'élément en élément</span></label>
+      <label><input type="radio" name="ex19" value="c"><span>Parce que le clavier est plus rapide que la souris</span></label>
+      <label><input type="radio" name="ex19" value="d"><span>Parce que les tablettes n'ont pas de souris</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex19')">Vérifier</button>
+    <div class="feedback" id="fb-ex19" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex20" data-answer="a">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 20 — Ordre de tabulation</h2>
+    <p>Si un élément est <strong>caché à l'écran</strong> (par ex. avec du CSS) mais reste dans le code, que doit-on faire pour l'accessibilité au clavier ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex20" value="a"><span>Le retirer du flux du clavier (ex. avec <code>tabindex="-1"</code> ou en le cachant aussi pour le lecteur d'écran s'il n'est pas utile), pour ne pas que l'utilisateur Tab sans rien voir</span></label>
+      <label><input type="radio" name="ex20" value="b"><span>Rien : le focus peut rester sur des éléments invisibles</span></label>
+      <label><input type="radio" name="ex20" value="c"><span>Le mettre en premier dans l'ordre de tabulation</span></label>
+      <label><input type="radio" name="ex20" value="d"><span>Le dupliquer en visible et en caché</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex20')">Vérifier</button>
+    <div class="feedback" id="fb-ex20" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex21" data-answer="c">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 21 — Focus visible</h2>
+    <p>Certains sites enlèvent le contour du focus (outline) au clavier pour « faire joli ». Pourquoi est-ce un problème ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex21" value="a"><span>Parce que le contour ralentit l'ordinateur</span></label>
+      <label><input type="radio" name="ex21" value="b"><span>Parce que le contour doit être de couleur bleue obligatoirement</span></label>
+      <label><input type="radio" name="ex21" value="c"><span>Parce que la personne qui navigue au clavier ne voit plus quel élément est sélectionné ; il faut garder un indicateur de focus visible (contour, bordure, fond)</span></label>
+      <label><input type="radio" name="ex21" value="d"><span>Parce que les lecteurs d'écran s'en servent</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex21')">Vérifier</button>
+    <div class="feedback" id="fb-ex21" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 8 -->
+  <section class="exo" id="ex22" data-answer="a">
+    <span class="part">Partie 8 — Lecteur d'écran</span>
+    <h2>Exercice 22 — Découvrir un lecteur d'écran</h2>
+    <p>Pourquoi le choix des balises HTML (titres, listes, boutons, liens) est-il crucial pour les utilisateurs de lecteur d'écran ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex22" value="a"><span>Parce que le lecteur d'écran annonce le type d'élément (« lien », « bouton », « titre niveau 2 », « liste de 5 éléments ») ; une bonne structure permet de naviguer et comprendre la page</span></label>
+      <label><input type="radio" name="ex22" value="b"><span>Parce que les lecteurs d'écran ne fonctionnent qu'avec certaines balises</span></label>
+      <label><input type="radio" name="ex22" value="c"><span>Parce que les balises améliorent la vitesse de parole du lecteur</span></label>
+      <label><input type="radio" name="ex22" value="d"><span>Parce que les lecteurs d'écran sont gratuits seulement avec du HTML correct</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex22')">Vérifier</button>
+    <div class="feedback" id="fb-ex22" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex23" data-answer="b">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 23 — Contenu caché à l'écran</h2>
+    <p>En CSS, <code>display: none</code> ou <code>visibility: hidden</code> cachent l'élément. Est-il encore annoncé par le lecteur d'écran ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex23" value="a"><span>Oui, le lecteur d'écran lit tout le contenu caché</span></label>
+      <label><input type="radio" name="ex23" value="b"><span>Non, le contenu est aussi retiré pour le lecteur d'écran ; donc ne pas cacher avec ça un contenu important pour l'accessibilité</span></label>
+      <label><input type="radio" name="ex23" value="c"><span>Seulement avec <code>visibility: hidden</code></span></label>
+      <label><input type="radio" name="ex23" value="d"><span>Seulement sur mobile</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex23')">Vérifier</button>
+    <div class="feedback" id="fb-ex23" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex24" data-answer="a">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 24 — Annonces dynamiques (ARIA live)</h2>
+    <p>Quand une page se met à jour sans rechargement (ex. message « Enregistré » après un clic), un utilisateur de lecteur d'écran peut ne pas le savoir. À quoi sert une « région live » (ARIA live) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex24" value="a"><span>À annoncer automatiquement les changements de contenu au lecteur d'écran (ex. « Votre formulaire a été envoyé »)</span></label>
+      <label><input type="radio" name="ex24" value="b"><span>À faire parler le lecteur d'écran plus vite</span></label>
+      <label><input type="radio" name="ex24" value="c"><span>À cacher du contenu au lecteur d'écran</span></label>
+      <label><input type="radio" name="ex24" value="d"><span>À afficher une vidéo en direct</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex24')">Vérifier</button>
+    <div class="feedback" id="fb-ex24" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 9 -->
+  <section class="exo" id="ex25" data-answer="a,b">
+    <span class="part">Partie 9 — Couleur et design</span>
+    <h2>Exercice 25 — Ne pas transmettre l'info par la couleur seule</h2>
+    <p>Quelles façons d'indiquer une erreur de formulaire sont accessibles ? (plusieurs réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex25" value="a"><span>Texte explicite (« Ce champ est obligatoire »)</span></label>
+      <label><input type="checkbox" name="ex25" value="b"><span>Icône + texte (ex. triangle d'alerte + message)</span></label>
+      <label><input type="checkbox" name="ex25" value="c"><span>Uniquement une bordure ou un fond rouge, sans texte</span></label>
+      <label><input type="checkbox" name="ex25" value="d"><span>Changer uniquement la couleur du texte en rouge</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex25')">Vérifier</button>
+    <div class="feedback" id="fb-ex25" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex26" data-answer="b">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 26 — Mode sombre / clair</h2>
+    <p>En CSS, comment peut-on détecter que l'utilisateur préfère un thème sombre (réglage du système) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex26" value="a"><span>Avec <code>theme: dark</code></span></label>
+      <label><input type="radio" name="ex26" value="b"><span>Avec la requête média <code>prefers-color-scheme: dark</code></span></label>
+      <label><input type="radio" name="ex26" value="c"><span>Avec un attribut HTML <code>data-theme="dark"</code> obligatoire</span></label>
+      <label><input type="radio" name="ex26" value="d"><span>En demandant à l'utilisateur de cliquer sur un bouton</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex26')">Vérifier</button>
+    <div class="feedback" id="fb-ex26" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex27" data-answer="a">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 27 — Animations et mouvement</h2>
+    <p>La requête média <code>prefers-reduced-motion: reduce</code> permet de détecter si l'utilisateur a choisi de réduire les animations. Que doit faire le site dans ce cas ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex27" value="a"><span>Réduire ou désactiver les animations (pour les personnes sensibles au mouvement, vertige, épilepsie, etc.)</span></label>
+      <label><input type="radio" name="ex27" value="b"><span>Augmenter la vitesse des animations</span></label>
+      <label><input type="radio" name="ex27" value="c"><span>Ne rien changer</span></label>
+      <label><input type="radio" name="ex27" value="d"><span>Passer le site en noir et blanc</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex27')">Vérifier</button>
+    <div class="feedback" id="fb-ex27" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 10 -->
+  <section class="exo" id="ex28" data-answer="a,b,c,d,e">
+    <span class="part">Partie 10 — Synthèse</span>
+    <h2>Exercice 28 — Checklist rapide</h2>
+    <p>Quels points sont importants à vérifier pour l'accessibilité d'une page ? (sélectionne toutes les bonnes réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex28" value="a"><span>Contraste des couleurs (texte lisible)</span></label>
+      <label><input type="checkbox" name="ex28" value="b"><span>Structure des titres (H1, H2, H3 logique)</span></label>
+      <label><input type="checkbox" name="ex28" value="c"><span>Texte alternatif (alt) des images</span></label>
+      <label><input type="checkbox" name="ex28" value="d"><span>Navigation au clavier et focus visible</span></label>
+      <label><input type="checkbox" name="ex28" value="e"><span>Labels des champs de formulaire</span></label>
+      <label><input type="checkbox" name="ex28" value="f"><span>La page doit être en bleu et blanc</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex28')">Vérifier</button>
+    <div class="feedback" id="fb-ex28" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex29" data-answer="b">
+    <span class="part">Partie 10</span>
+    <h2>Exercice 29 — Outils d'évaluation</h2>
+    <p>Les outils automatiques d'accessibilité (ex. WAVE, axe DevTools) repèrent-ils <strong>tous</strong> les problèmes d'accessibilité ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex29" value="a"><span>Oui, si on lance l'outil une fois, la page est 100 % accessible</span></label>
+      <label><input type="radio" name="ex29" value="b"><span>Non ; ils repèrent beaucoup de problèmes, mais il faut aussi tester à la main (clavier, lecteur d'écran, bon sens des textes)</span></label>
+      <label><input type="radio" name="ex29" value="c"><span>Non, ils ne servent à rien</span></label>
+      <label><input type="radio" name="ex29" value="d"><span>Oui, mais seulement sur les sites en anglais</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex29')">Vérifier</button>
+    <div class="feedback" id="fb-ex29" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex30" data-answer="a,b,c,d">
+    <span class="part">Partie 10 — Projet final</span>
+    <h2>Exercice 30 — Une page accessible</h2>
+    <p>Pour qu'une courte page HTML soit accessible, quels éléments doit-elle avoir au minimum ? (sélectionne toutes les bonnes réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex30" value="a"><span>Un titre H1 et une structure de titres logique</span></label>
+      <label><input type="checkbox" name="ex30" value="b"><span>Des images avec un attribut <code>alt</code> adapté</span></label>
+      <label><input type="checkbox" name="ex30" value="c"><span>Des liens avec un texte explicite (pas juste « Cliquez ici »)</span></label>
+      <label><input type="checkbox" name="ex30" value="d"><span>Des champs de formulaire avec des labels associés</span></label>
+      <label><input type="checkbox" name="ex30" value="e"><span>Le plus d'animations possible pour rendre la page vivante</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex30')">Vérifier</button>
+    <div class="feedback" id="fb-ex30" role="alert" hidden></div>
+  </section>
+
+  <div id="restart-area" class="restart-area" hidden>
+    <p id="final-message"></p>
+    <button type="button" id="restart-btn" class="verify">Recommencer les 30 défis</button>
+  </div>
+
+  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--card); color: var(--muted); font-size: 0.9rem;">
+    <p>WCAG = Web Content Accessibility Guidelines · RGAA = Référentiel général d'amélioration de l'accessibilité (France).<br>
+    Lecteurs d'écran : NVDA (Windows), VoiceOver (Mac/iOS), TalkBack (Android).</p>
+  </footer>
+
+  <script>
+    const STORAGE_KEY = 'qcm-a11y-progress';
+    let results = {}; // ex1: true/false, etc.
+
+    // Explications affichées quand le stagiaire se trompe
+    const EXPLANATIONS = {
+      ex1: "Un site accessible vise à être utilisable par le plus de personnes possible : handicap permanent ou temporaire (bras cassé, écran cassé), difficultés (âge, fatigue, mauvaise connexion). Ce n'est pas réservé aux personnes handicapées, et on ne supprime pas les images — on les rend compréhensibles (alt, contraste, etc.).",
+      ex2: "Une mauvaise connexion, un handicap visuel ou un petit écran/zoom rendent l'usage plus difficile. Avoir un ordinateur récent facilite au contraire l'utilisation.",
+      ex3: "L'accessibilité concerne tout le monde : on peut tous avoir une situation de handicap temporaire (plâtre, écran cassé) ou des difficultés (âge, fatigue, environnement bruyant). La loi impose l'accessibilité aux sites publics pour inclure tout le monde, pas seulement les personnes en situation de handicap permanent.",
+      ex4: "La règle des 200 % de zoom permet aux personnes malvoyantes ou qui ont besoin de gros caractères de lire le contenu sans que la mise en page se casse. C'est une exigence des référentiels d'accessibilité (WCAG, RGAA).",
+      ex5: "Le noir sur blanc (ou un texte foncé sur fond clair avec un bon contraste) est le plus lisible pour le plus grand nombre. Le gris clair, le jaune pâle ou le bleu clair sur fond clair ont un contraste insuffisant et fatiguent l'œil.",
+      ex6: "Une ligne trop longue oblige l'œil à faire de longs déplacements pour revenir au début de la ligne suivante, ce qui fatigue et gêne la lecture. Une largeur d'environ 60 à 80 caractères est souvent recommandée.",
+      ex7: "L'attribut <code>alt</code> sert à décrire l'image pour les personnes qui utilisent un lecteur d'écran (ou quand l'image ne s'affiche pas). Il aide aussi le référencement, mais ce n'est pas son seul rôle.",
+      ex8: "Une image purement décorative n'apporte pas d'information. Avec <code>alt=\"\"</code> (vide), le lecteur d'écran l'ignore. Mettre « image » ou ne pas mettre d'alt force le lecteur à annoncer quelque chose d'inutile.",
+      ex9: "Les sous-titres aident les personnes sourdes ou malentendantes, celles qui regardent sans le son (transport, bureau), et celles qui apprennent une langue. Ils ne sont pas « uniquement pour les aveugles » : les personnes aveugles ont besoin d'une description audio du contenu visuel, pas des sous-titres.",
+      ex10: "« Cliquez ici » ne dit pas où mène le lien. Les utilisateurs de lecteur d'écran peuvent lister tous les liens d'une page : si tous disent « Cliquez ici », ils ne peuvent pas choisir. Le texte du lien doit décrire la destination ou l'action.",
+      ex11: "Quand un lien ouvre un nouvel onglet, le contexte change sans que l'utilisateur le sache toujours. Il faut l'indiquer dans le texte du lien (ex. « Voir les tarifs (nouvel onglet) ») pour ne pas désorienter, surtout les utilisateurs de lecteur d'écran.",
+      ex12: "En HTML, un <strong>lien</strong> (<code>&lt;a&gt;</code>) sert à naviguer vers une page ou une ressource. Un <strong>bouton</strong> (<code>&lt;button&gt;</code>) déclenche une action sur la page (envoyer, ouvrir un menu, etc.). Utiliser un <code>&lt;div&gt;</code> avec un clic à la place n'est pas accessible (pas d'annonce correcte au lecteur d'écran, pas de comportement clavier natif).",
+      ex13: "L'association <code>&lt;label for=\"id-du-champ\"&gt;</code> avec un <code>id</code> sur le champ permet de cliquer sur le libellé pour activer le champ, et le lecteur d'écran annonce correctement le label. Il n'existe pas d'attribut <code>label</code> ou <code>obligatoire</code> sur l'input ; <code>&lt;title&gt;</code> est pour l'onglet du navigateur.",
+      ex14: "Indiquer une erreur uniquement par la couleur (bordure rouge) pose problème : les daltoniens peuvent ne pas percevoir la couleur, et les lecteurs d'écran ne « voient » pas les couleurs. Il faut toujours un message texte explicite (ex. « Ce champ est obligatoire »).",
+      ex15: "En HTML, l'attribut <code>required</code> indique que le champ est obligatoire (le navigateur peut bloquer l'envoi et les lecteurs d'écran l'annoncent). Pour les utilisateurs qui voient la page, il faut aussi une indication visible dans le label (ex. « Email * »). Il n'existe pas d'attribut <code>optional</code> ou <code>obligatoire</code>.",
+      ex16: "Les lecteurs d'écran permettent de naviguer de titre en titre (H1, H2, H3…). Une hiérarchie logique (un H1, puis des H2, des H3 sous les H2, etc.) aide à comprendre la structure de la page sans tout lire. Ce n'est pas une question de mise en forme (gras) ni de nombre imposé par Google.",
+      ex17: "Les balises <code>&lt;ul&gt;</code> et <code>&lt;ol&gt;</code> donnent une structure sémantique : le lecteur d'écran annonce « liste de X éléments » et permet de naviguer d'élément en élément. Des tirets ou numéros « à la main » dans un paragraphe ne fournissent pas cette structure.",
+      ex18: "La balise <code>&lt;main&gt;</code> contient le contenu principal de la page. <code>&lt;header&gt;</code> = en-tête, <code>&lt;nav&gt;</code> = navigation, <code>&lt;footer&gt;</code> = pied de page. Ces « landmarks » permettent aux lecteurs d'écran de sauter directement à la zone voulue.",
+      ex19: "Certaines personnes ne peuvent pas utiliser la souris (handicap moteur) ou préfèrent le clavier. La touche Tab permet d'avancer d'élément en élément ; tout ce qui est faisable à la souris doit pouvoir l'être au clavier.",
+      ex20: "Si un élément est caché en CSS mais reste dans le code, il peut encore recevoir le focus au clavier : l'utilisateur Tab sans rien voir, ce qui est très déroutant. Il faut le retirer du flux clavier (ex. <code>tabindex=\"-1\"</code>) ou le cacher aussi pour le lecteur d'écran s'il n'est pas utile.",
+      ex21: "Quand on navigue au clavier, il faut savoir quel élément a le focus. Si on supprime le contour (outline) pour « faire joli », la personne qui utilise Tab ne voit plus où elle est. Il faut garder un indicateur de focus visible (contour, bordure ou fond) tout en pouvant le styliser.",
+      ex22: "Le lecteur d'écran annonce le type d'élément : « lien », « bouton », « titre niveau 2 », « liste de 5 éléments ». Une bonne structure HTML (vrais liens, vrais boutons, titres hiérarchisés, listes) permet de naviguer et de comprendre la page efficacement.",
+      ex23: "Avec <code>display: none</code> ou <code>visibility: hidden</code>, l'élément est retiré du rendu et n'est pas annoncé par le lecteur d'écran. Donc ne pas utiliser ces propriétés pour cacher du contenu important pour l'accessibilité (ex. un message d'erreur qu'on veut faire annoncer).",
+      ex24: "Une région « live » (ARIA live) indique au lecteur d'écran qu'il doit annoncer les changements de contenu dans cette zone. Quand un message « Enregistré » apparaît après un clic, le lecteur peut l'annoncer automatiquement sans que l'utilisateur ait à explorer à nouveau la page.",
+      ex25: "Pour indiquer une erreur de façon accessible, il faut un texte explicite ou une icône + texte. Compter uniquement sur la couleur (bordure rouge, texte rouge) exclut les daltoniens et les lecteurs d'écran qui ne perçoivent pas cette information.",
+      ex26: "La requête média <code>prefers-color-scheme: dark</code> détecte la préférence de thème (clair/sombre) du système ou du navigateur. On peut alors adapter les couleurs du site sans demander à l'utilisateur de cliquer. Il n'existe pas de propriété CSS <code>theme: dark</code>.",
+      ex27: "Certaines personnes sont sensibles au mouvement (vertige, épilepsie, fatigue). La requête <code>prefers-reduced-motion: reduce</code> indique que l'utilisateur a choisi de réduire les animations. Le site doit alors réduire ou désactiver les animations, pas les augmenter ni ignorer la préférence.",
+      ex28: "Les points essentiels sont : contraste, structure des titres, texte alternatif des images, navigation au clavier et focus visible, labels des formulaires. La couleur de la page (bleu et blanc ou autre) n'est pas un critère d'accessibilité.",
+      ex29: "Les outils automatiques (WAVE, axe, etc.) repèrent beaucoup de problèmes (contraste, alt manquants, structure…), mais ils ne voient pas tout : le bon sens des textes, l'ordre logique, l'usage au clavier ou avec un lecteur d'écran doivent être testés à la main.",
+      ex30: "Une page accessible a besoin d'un titre H1 et d'une structure logique, d'images avec <code>alt</code> adapté, de liens avec un texte explicite et de champs de formulaire avec labels. Ajouter « le plus d'animations possible » peut au contraire gêner les personnes sensibles au mouvement (il faut respecter <code>prefers-reduced-motion</code>)."
+    };
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+        if (data.results && typeof data.results === 'object') {
+          results = data.results;
+          Object.keys(data.choices || {}).forEach(function (id) {
+            const section = document.getElementById(id);
+            if (!section) return;
+            const choice = data.choices[id]; // "b" ou "a,b,c"
+            const inputs = section.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            const values = choice.split(',');
+            inputs.forEach(function (input) {
+              input.checked = values.indexOf(input.value) !== -1;
+            });
+            const btn = section.querySelector('button.verify');
+            const feedback = document.getElementById('fb-' + id);
+            if (results[id] !== undefined && btn && feedback) {
+              btn.disabled = true;
+              feedback.hidden = false;
+              feedback.className = 'feedback ' + (results[id] ? 'correct' : 'incorrect');
+              var wrongMsg = (section.dataset.answer || '').split(',').length > 1
+                ? 'Pas tout à fait. Regarde les bonnes réponses ci-dessus.'
+                : 'Pas tout à fait. Regarde la bonne réponse ci-dessus.';
+              feedback.innerHTML = results[id] ? 'Bravo, c\'est correct !' : (wrongMsg + (EXPLANATIONS[id] ? '<span class="explain">' + EXPLANATIONS[id] + '</span>' : ''));
+              if (!results[id]) {
+                const expected = (section.dataset.answer || '').split(',').sort();
+                markLabels(section, expected);
+              }
+            }
+          });
+        }
+      } catch (e) {}
+      updateScore();
+      showRestartIfDone();
+    }
+
+    function saveProgress() {
+      const choices = {};
+      for (let n = 1; n <= 30; n++) {
+        const id = 'ex' + n;
+        const section = document.getElementById(id);
+        if (!section) continue;
+        const radios = section.querySelectorAll('input[type="radio"]:checked');
+        const checkboxes = section.querySelectorAll('input[type="checkbox"]:checked');
+        if (radios.length) choices[id] = radios[0].value;
+        else if (checkboxes.length) choices[id] = Array.from(checkboxes).map(function (c) { return c.value; }).sort().join(',');
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ results: results, choices: choices }));
+      } catch (e) {}
+    }
+
+    function getSelected(id) {
+      const section = document.getElementById(id);
+      const radios = section.querySelectorAll('input[type="radio"]:checked');
+      const checkboxes = section.querySelectorAll('input[type="checkbox"]:checked');
+      if (radios.length) return radios[0].value;
+      if (checkboxes.length) {
+        return Array.from(checkboxes).map(function (cb) { return cb.value; }).sort().join(',');
+      }
+      return null;
+    }
+
+    function getExpected(id) {
+      return document.getElementById(id).dataset.answer || '';
+    }
+
+    function markLabels(section, correctValues) {
+      section.querySelectorAll('.options label').forEach(function (l) {
+        l.classList.remove('correct', 'incorrect');
+        const input = l.querySelector('input');
+        if (!input) return;
+        const val = input.value;
+        const isCorrectAnswer = correctValues.indexOf(val) !== -1;
+        if (isCorrectAnswer) {
+          l.classList.add('correct');
+        } else if (input.checked) {
+          l.classList.add('incorrect');
+        }
+      });
+    }
+
+    function check(id) {
+      if (results[id] !== undefined) return;
+      const section = document.getElementById(id);
+      const expected = getExpected(id);
+      const expectedArr = expected.split(',').sort();
+      const selected = getSelected(id);
+      const selectedArr = selected ? selected.split(',').sort() : [];
+      const correct = expected === (selected ? selectedArr.join(',') : '');
+      results[id] = correct;
+
+      const feedback = document.getElementById('fb-' + id);
+      feedback.hidden = false;
+      feedback.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+      var wrongMsg = expectedArr.length > 1
+        ? 'Pas tout à fait. Regarde les bonnes réponses ci-dessus.'
+        : 'Pas tout à fait. Regarde la bonne réponse ci-dessus.';
+      feedback.innerHTML = correct ? 'Bravo, c\'est correct !' : (wrongMsg + (EXPLANATIONS[id] ? '<span class="explain">' + EXPLANATIONS[id] + '</span>' : ''));
+      if (!correct) markLabels(section, expectedArr);
+
+      section.querySelector('button.verify').disabled = true;
+      updateScore();
+      saveProgress();
+      showRestartIfDone();
+    }
+
+    function updateScore() {
+      const total = Object.values(results).filter(Boolean).length;
+      document.getElementById('score').textContent = total;
+      document.getElementById('progress').value = total;
+    }
+
+    function showRestartIfDone() {
+      const done = Object.keys(results).length === 30;
+      const area = document.getElementById('restart-area');
+      const msg = document.getElementById('final-message');
+      if (!done) {
+        area.hidden = true;
+        return;
+      }
+      area.hidden = false;
+      const score = Object.values(results).filter(Boolean).length;
+      if (score === 30) {
+        msg.textContent = 'Félicitations ! Tu as réussi les 30 défis. Tu peux recommencer pour revoir les notions.';
+      } else {
+        msg.textContent = 'Tu as terminé les 30 défis avec un score de ' + score + '/30. Tu peux recommencer pour t\'améliorer.';
+      }
+    }
+
+    document.getElementById('restart-btn').addEventListener('click', function () {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      location.reload();
+    });
+
+    loadProgress();
+  </script>
+</body>
+</html>

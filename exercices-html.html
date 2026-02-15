@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30 défis HTML — Apprendre le langage du web</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --accent: #a78bfa;
+      --accent-hover: #c4b5fd;
+      --success: #4ade80;
+      --error: #f87171;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 1rem;
+      max-width: 52rem;
+      margin-inline: auto;
+    }
+    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; color: var(--accent); }
+    .intro { color: var(--muted); margin-bottom: 2rem; }
+    .score-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .score-bar progress { flex: 1; min-width: 120px; height: 12px; border-radius: 6px; background: var(--card); }
+    .score-bar progress::-webkit-progress-bar { background: var(--card); border-radius: 6px; }
+    .score-bar progress::-webkit-progress-value { background: var(--accent); border-radius: 6px; }
+    .score-bar progress::-moz-progress-bar { background: var(--accent); border-radius: 6px; }
+    .score-text { font-weight: bold; color: var(--accent); }
+    section.exo {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--accent);
+    }
+    section.exo h2 { font-size: 1rem; margin: 0 0 0.5rem 0; color: var(--text); }
+    section.exo .part { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .options label {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.6rem 0.8rem;
+      background: var(--bg);
+      border-radius: 8px;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    .options label:hover { border-color: var(--muted); }
+    .options input:checked + span { font-weight: 600; }
+    .options input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .options label.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
+    .options label.incorrect { border-color: var(--error); background: rgba(248, 113, 113, 0.15); }
+    .options input[type="checkbox"] { margin-right: 0.5rem; }
+    .options input[type="radio"] { margin-right: 0.5rem; }
+    .feedback { margin-top: 0.75rem; padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.9rem; }
+    .feedback.correct { background: rgba(74, 222, 128, 0.2); color: var(--success); }
+    .feedback.incorrect { background: rgba(248, 113, 113, 0.2); color: var(--error); }
+    .feedback .explanation { display: block; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(248, 113, 113, 0.3); font-size: 0.85rem; opacity: 0.95; }
+    button.verify {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.verify:hover { background: var(--accent-hover); }
+    button.verify:disabled { opacity: 0.6; cursor: not-allowed; }
+    code { background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    .restart-area {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--success);
+      text-align: center;
+    }
+    .restart-area p { margin: 0 0 1rem 0; font-size: 1.1rem; }
+    #restart-btn { font-size: 1rem; padding: 0.75rem 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>30 défis HTML</h1>
+  <p class="intro">Niveau 3ème — Familiarise-toi avec le langage HTML qui structure les pages web. Choisis ta réponse puis clique sur « Vérifier ».</p>
+
+  <div class="score-bar" role="status" aria-live="polite">
+    <span class="score-text">Score : <span id="score">0</span>/30</span>
+    <progress id="progress" value="0" max="30" aria-label="Exercices réussis"></progress>
+  </div>
+
+  <!-- Partie 1 : Les bases -->
+  <section class="exo" id="ex1" data-answer="a" data-explanation="HTML = HyperText Markup Language. Ce n'est pas un langage de programmation ni un logiciel : il sert à structurer le contenu (titres, paragraphes, liens) d'une page web.">
+    <span class="part">Partie 1 — Les bases du HTML</span>
+    <h2>Exercice 1 — À quoi sert le HTML ?</h2>
+    <p>Que signifie HTML et à quoi sert-il ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex1" value="a"><span>HyperText Markup Language : un langage qui décrit la <strong>structure</strong> d’une page web (titres, paragraphes, liens…)</span></label>
+      <label><input type="radio" name="ex1" value="b"><span>High Tech Modern Language : un langage pour écrire des programmes</span></label>
+      <label><input type="radio" name="ex1" value="c"><span>Home Tool Markup Language : un langage pour créer des tableaux</span></label>
+      <label><input type="radio" name="ex1" value="d"><span>Un logiciel pour dessiner des sites</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex1')">Vérifier</button>
+    <div class="feedback" id="fb-ex1" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex2" data-answer="b" data-explanation="La toute première ligne doit être &lt;!DOCTYPE html&gt; pour indiquer au navigateur qu'il s'agit d'un document HTML5. Ensuite viennent &lt;html&gt;, &lt;head&gt;, puis &lt;body&gt;.">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 2 — La première ligne d’un fichier HTML</h2>
+    <p>Quelle ligne doit apparaître tout au début d’un fichier HTML5 ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex2" value="a"><span><code>&lt;html&gt;</code></span></label>
+      <label><input type="radio" name="ex2" value="b"><span><code>&lt;!DOCTYPE html&gt;</code></span></label>
+      <label><input type="radio" name="ex2" value="c"><span><code>&lt;head&gt;</code></span></label>
+      <label><input type="radio" name="ex2" value="d"><span><code>&lt;body&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex2')">Vérifier</button>
+    <div class="feedback" id="fb-ex2" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex3" data-answer="c" data-explanation="Le &lt;head&gt; contient les métadonnées (titre, encodage…) invisibles. Le contenu visible (texte, images, liens) doit être dans le &lt;body&gt;.">
+    <span class="part">Partie 1</span>
+    <h2>Exercice 3 — Structure de la page</h2>
+    <p>Où doit se trouver le contenu visible de la page (texte, images, liens) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex3" value="a"><span>Dans <code>&lt;head&gt;</code></span></label>
+      <label><input type="radio" name="ex3" value="b"><span>Entre <code>&lt;!DOCTYPE html&gt;</code> et <code>&lt;html&gt;</code></span></label>
+      <label><input type="radio" name="ex3" value="c"><span>Dans <code>&lt;body&gt;</code></span></label>
+      <label><input type="radio" name="ex3" value="d"><span>Dans <code>&lt;title&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex3')">Vérifier</button>
+    <div class="feedback" id="fb-ex3" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 2 : Texte -->
+  <section class="exo" id="ex4" data-answer="a" data-explanation="&lt;h1&gt; est le titre principal affiché dans la page (en général un seul par page). &lt;title&gt; est le titre de l'onglet du navigateur, pas le titre visible dans la page.">
+    <span class="part">Partie 2 — Texte et titres</span>
+    <h2>Exercice 4 — Le titre principal</h2>
+    <p>Quelle balise sert à afficher le <strong>titre principal</strong> d’une page (en général un seul par page) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex4" value="a"><span><code>&lt;h1&gt;</code></span></label>
+      <label><input type="radio" name="ex4" value="b"><span><code>&lt;title&gt;</code></span></label>
+      <label><input type="radio" name="ex4" value="c"><span><code>&lt;head&gt;</code></span></label>
+      <label><input type="radio" name="ex4" value="d"><span><code>&lt;h6&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex4')">Vérifier</button>
+    <div class="feedback" id="fb-ex4" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex5" data-answer="b" data-explanation="En HTML, « p » vient de « paragraph ». Les balises &lt;text&gt;, &lt;paragraphe&gt; et &lt;line&gt; n'existent pas.">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 5 — Paragraphe</h2>
+    <p>Quelle balise utilise-t-on pour un paragraphe de texte ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex5" value="a"><span><code>&lt;text&gt;</code></span></label>
+      <label><input type="radio" name="ex5" value="b"><span><code>&lt;p&gt;</code></span></label>
+      <label><input type="radio" name="ex5" value="c"><span><code>&lt;paragraphe&gt;</code></span></label>
+      <label><input type="radio" name="ex5" value="d"><span><code>&lt;line&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex5')">Vérifier</button>
+    <div class="feedback" id="fb-ex5" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex6" data-answer="a,b" data-explanation="En HTML on utilise &lt;strong&gt; pour le gras (important) et &lt;em&gt; pour l'emphase (italique). Les balises &lt;bold&gt;, &lt;italic&gt;, &lt;gras&gt; et &lt;italique&gt; n'existent pas.">
+    <span class="part">Partie 2</span>
+    <h2>Exercice 6 — Mettre en valeur le texte</h2>
+    <p>Quelles balises permettent de mettre du texte en <strong>gras</strong> ou en <em>italique</em> ? (plusieurs réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex6" value="a"><span><code>&lt;strong&gt;</code> pour le gras (important)</span></label>
+      <label><input type="checkbox" name="ex6" value="b"><span><code>&lt;em&gt;</code> pour l’italique (emphase)</span></label>
+      <label><input type="checkbox" name="ex6" value="c"><span><code>&lt;bold&gt;</code> et <code>&lt;italic&gt;</code></span></label>
+      <label><input type="checkbox" name="ex6" value="d"><span><code>&lt;gras&gt;</code> et <code>&lt;italique&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex6')">Vérifier</button>
+    <div class="feedback" id="fb-ex6" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 3 : Liens et images -->
+  <section class="exo" id="ex7" data-answer="c" data-explanation="Pour un lien &lt;a&gt;, l'adresse se met dans l'attribut href (Hypertext Reference). C'est src (source) qui est utilisé pour les images.">
+    <span class="part">Partie 3 — Liens et images</span>
+    <h2>Exercice 7 — Créer un lien</h2>
+    <p>Quel attribut de la balise <code>&lt;a&gt;</code> indique <strong>l’adresse</strong> de la page vers laquelle le lien mène ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex7" value="a"><span><code>link</code></span></label>
+      <label><input type="radio" name="ex7" value="b"><span><code>url</code></span></label>
+      <label><input type="radio" name="ex7" value="c"><span><code>href</code></span></label>
+      <label><input type="radio" name="ex7" value="d"><span><code>src</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex7')">Vérifier</button>
+    <div class="feedback" id="fb-ex7" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex8" data-answer="b" data-explanation="Pour &lt;img&gt;, le fichier image se met dans l'attribut src (source). href est utilisé pour les liens &lt;a&gt;, pas pour les images.">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 8 — Afficher une image</h2>
+    <p>Quel attribut de la balise <code>&lt;img&gt;</code> indique le <strong>fichier image</strong> à afficher ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex8" value="a"><span><code>href</code></span></label>
+      <label><input type="radio" name="ex8" value="b"><span><code>src</code></span></label>
+      <label><input type="radio" name="ex8" value="c"><span><code>file</code></span></label>
+      <label><input type="radio" name="ex8" value="d"><span><code>alt</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex8')">Vérifier</button>
+    <div class="feedback" id="fb-ex8" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex9" data-answer="a">
+    <span class="part">Partie 3</span>
+    <h2>Exercice 9 — L’attribut alt des images</h2>
+    <p>À quoi sert l’attribut <code>alt</code> sur une image ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex9" value="a"><span>À décrire l’image (pour l’accessibilité et si l’image ne charge pas)</span></label>
+      <label><input type="radio" name="ex9" value="b"><span>À définir la taille de l’image</span></label>
+      <label><input type="radio" name="ex9" value="c"><span>À mettre un lien sur l’image</span></label>
+      <label><input type="radio" name="ex9" value="d"><span>À changer la couleur du cadre</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex9')">Vérifier</button>
+    <div class="feedback" id="fb-ex9" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 4 : Listes -->
+  <section class="exo" id="ex10" data-answer="b" data-explanation="ul = unordered list (liste non ordonnée, à puces). ol = ordered list (numérotée). &lt;li&gt; est un élément de liste, pas le conteneur. &lt;list&gt; n'existe pas.">
+    <span class="part">Partie 4 — Listes</span>
+    <h2>Exercice 10 — Liste à puces</h2>
+    <p>Quelle balise crée une liste <strong>à puces</strong> (non numérotée) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex10" value="a"><span><code>&lt;li&gt;</code></span></label>
+      <label><input type="radio" name="ex10" value="b"><span><code>&lt;ul&gt;</code></span></label>
+      <label><input type="radio" name="ex10" value="c"><span><code>&lt;ol&gt;</code></span></label>
+      <label><input type="radio" name="ex10" value="d"><span><code>&lt;list&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex10')">Vérifier</button>
+    <div class="feedback" id="fb-ex10" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex11" data-answer="c" data-explanation="ol = ordered list (liste numérotée 1, 2, 3…). ul = unordered list (à puces). &lt;li&gt; est l'élément de liste. &lt;num&gt; n'existe pas en HTML.">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 11 — Liste numérotée</h2>
+    <p>Quelle balise crée une liste <strong>numérotée</strong> (1, 2, 3…) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex11" value="a"><span><code>&lt;ul&gt;</code></span></label>
+      <label><input type="radio" name="ex11" value="b"><span><code>&lt;li&gt;</code></span></label>
+      <label><input type="radio" name="ex11" value="c"><span><code>&lt;ol&gt;</code></span></label>
+      <label><input type="radio" name="ex11" value="d"><span><code>&lt;num&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex11')">Vérifier</button>
+    <div class="feedback" id="fb-ex11" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex12" data-answer="a" data-explanation="Chaque élément d'une liste est une balise &lt;li&gt; (list item). Les balises &lt;item&gt;, &lt;elt&gt; et &lt;point&gt; n'existent pas en HTML.">
+    <span class="part">Partie 4</span>
+    <h2>Exercice 12 — Un élément de liste</h2>
+    <p>Chaque élément d’une liste (<code>&lt;ul&gt;</code> ou <code>&lt;ol&gt;</code>) est entouré par quelle balise ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex12" value="a"><span><code>&lt;li&gt;</code></span></label>
+      <label><input type="radio" name="ex12" value="b"><span><code>&lt;item&gt;</code></span></label>
+      <label><input type="radio" name="ex12" value="c"><span><code>&lt;elt&gt;</code></span></label>
+      <label><input type="radio" name="ex12" value="d"><span><code>&lt;point&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex12')">Vérifier</button>
+    <div class="feedback" id="fb-ex12" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 5 : Formulaires -->
+  <section class="exo" id="ex13" data-answer="b" data-explanation="&lt;form&gt; englobe tout le formulaire (champs + bouton d'envoi). &lt;input&gt; est un champ ; &lt;fieldset&gt; groupe des champs. La balise &lt;formulaire&gt; n'existe pas.">
+    <span class="part">Partie 5 — Formulaires</span>
+    <h2>Exercice 13 — Créer un formulaire</h2>
+    <p>Quelle balise englobe tous les champs d’un formulaire (saisie, bouton d’envoi) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex13" value="a"><span><code>&lt;input&gt;</code></span></label>
+      <label><input type="radio" name="ex13" value="b"><span><code>&lt;form&gt;</code></span></label>
+      <label><input type="radio" name="ex13" value="c"><span><code>&lt;fieldset&gt;</code></span></label>
+      <label><input type="radio" name="ex13" value="d"><span><code>&lt;formulaire&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex13')">Vérifier</button>
+    <div class="feedback" id="fb-ex13" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex14" data-answer="a" data-explanation="Un champ texte court se fait avec &lt;input type=&quot;text&quot;&gt;. &lt;textarea&gt; existe pour les textes longs. Les balises &lt;text&gt; et &lt;champ&gt; n'existent pas.">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 14 — Champ de saisie texte</h2>
+    <p>Quelle balise permet de créer un champ où l’utilisateur peut taper du texte ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex14" value="a"><span><code>&lt;input type="text"&gt;</code></span></label>
+      <label><input type="radio" name="ex14" value="b"><span><code>&lt;text&gt;</code></span></label>
+      <label><input type="radio" name="ex14" value="c"><span><code>&lt;textarea&gt;</code> uniquement</span></label>
+      <label><input type="radio" name="ex14" value="d"><span><code>&lt;champ&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex14')">Vérifier</button>
+    <div class="feedback" id="fb-ex14" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex15" data-answer="b" data-explanation="On met un id sur l'input, puis &lt;label for=&quot;cet-id&quot;&gt; avec le même identifiant. Cela permet de cliquer sur le libellé pour activer le champ et améliore l'accessibilité.">
+    <span class="part">Partie 5</span>
+    <h2>Exercice 15 — Associer un label à un champ</h2>
+    <p>Pour qu’un texte soit le libellé d’un champ (ex. « Email »), on utilise la balise <code>&lt;label&gt;</code>. Comment la relie-t-on au champ ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex15" value="a"><span>Avec <code>label="email"</code> sur l’input</span></label>
+      <label><input type="radio" name="ex15" value="b"><span>Avec <code>&lt;label for="id-du-champ"&gt;</code> et <code>id</code> sur l’input</span></label>
+      <label><input type="radio" name="ex15" value="c"><span>En mettant le label juste au-dessus en CSS</span></label>
+      <label><input type="radio" name="ex15" value="d"><span>Avec <code>&lt;label name="email"&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex15')">Vérifier</button>
+    <div class="feedback" id="fb-ex15" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 6 : Attributs et structure -->
+  <section class="exo" id="ex16" data-answer="c" data-explanation="L'attribut id donne un identifiant unique (une seule valeur par page). name peut être répété (ex. boutons radio). class peut être partagé par plusieurs éléments. ref n'est pas un attribut HTML standard.">
+    <span class="part">Partie 6 — Attributs et structure</span>
+    <h2>Exercice 16 — Identifiant unique</h2>
+    <p>Quel attribut permet de donner un <strong>identifiant unique</strong> à un élément (pour le cibler en CSS ou en JavaScript) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex16" value="a"><span><code>name</code></span></label>
+      <label><input type="radio" name="ex16" value="b"><span><code>class</code></span></label>
+      <label><input type="radio" name="ex16" value="c"><span><code>id</code></span></label>
+      <label><input type="radio" name="ex16" value="d"><span><code>ref</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex16')">Vérifier</button>
+    <div class="feedback" id="fb-ex16" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex17" data-answer="a" data-explanation="Pour appliquer le même style à plusieurs éléments, on utilise class (réutilisable). L'id doit être unique. style est pour du style inline sur un seul élément. group n'existe pas.">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 17 — Plusieurs éléments avec le même style</h2>
+    <p>Pour appliquer le même style à plusieurs éléments, on leur donne souvent le même attribut. Lequel ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex17" value="a"><span><code>class</code></span></label>
+      <label><input type="radio" name="ex17" value="b"><span><code>id</code></span></label>
+      <label><input type="radio" name="ex17" value="c"><span><code>style</code></span></label>
+      <label><input type="radio" name="ex17" value="d"><span><code>group</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex17')">Vérifier</button>
+    <div class="feedback" id="fb-ex17" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex18" data-answer="b" data-explanation="&lt;main&gt; est la balise sémantique HTML5 pour le contenu principal. &lt;div&gt; est générique ; &lt;content&gt; n'existe pas. &lt;section&gt; décrit une section, pas forcément le contenu principal unique.">
+    <span class="part">Partie 6</span>
+    <h2>Exercice 18 — Balises de zone</h2>
+    <p>Quelle balise HTML5 contient le <strong>contenu principal</strong> de la page (sans le menu ni le pied) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex18" value="a"><span><code>&lt;div&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="b"><span><code>&lt;main&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="c"><span><code>&lt;content&gt;</code></span></label>
+      <label><input type="radio" name="ex18" value="d"><span><code>&lt;section&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex18')">Vérifier</button>
+    <div class="feedback" id="fb-ex18" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 7 : Bonnes pratiques -->
+  <section class="exo" id="ex19" data-answer="a" data-explanation="En HTML, une balise se ferme avec &lt;/nom&gt; (slash avant le nom). La syntaxe &lt;p/&gt; est du XHTML. &lt;end p&gt; et &lt;close p&gt; n'existent pas.">
+    <span class="part">Partie 7 — Bonnes pratiques</span>
+    <h2>Exercice 19 — Fermer les balises</h2>
+    <p>En HTML, la plupart des balises ont une balise de fermeture. Comment s’écrit la fermeture de <code>&lt;p&gt;</code> ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex19" value="a"><span><code>&lt;/p&gt;</code></span></label>
+      <label><input type="radio" name="ex19" value="b"><span><code>&lt;p/&gt;</code></span></label>
+      <label><input type="radio" name="ex19" value="c"><span><code>&lt;end p&gt;</code></span></label>
+      <label><input type="radio" name="ex19" value="d"><span><code>&lt;close p&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex19')">Vérifier</button>
+    <div class="feedback" id="fb-ex19" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex20" data-answer="b" data-explanation="&lt;img&gt; est une balise orpheline (void) : elle n'a pas de contenu, on écrit &lt;img src=&quot;...&quot; alt=&quot;...&quot;&gt; en un seul tag. &lt;p&gt;, &lt;a&gt; et &lt;h1&gt; ont du contenu donc une balise de fermeture.">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 20 — Balises orphelines</h2>
+    <p>Certaines balises n’ont pas de contenu entre ouverture et fermeture. Laquelle s’écrit en un seul « tag » (balise orpheline) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex20" value="a"><span><code>&lt;p&gt;&lt;/p&gt;</code></span></label>
+      <label><input type="radio" name="ex20" value="b"><span><code>&lt;img src="photo.jpg" alt="Photo"&gt;</code></span></label>
+      <label><input type="radio" name="ex20" value="c"><span><code>&lt;a href="..."&gt;&lt;/a&gt;</code></span></label>
+      <label><input type="radio" name="ex20" value="d"><span><code>&lt;h1&gt;&lt;/h1&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex20')">Vérifier</button>
+    <div class="feedback" id="fb-ex20" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex21" data-answer="c" data-explanation="Bonne pratique : un seul &lt;h1&gt; par page, puis h2, h3… sans sauter de niveau. Plusieurs h1 ou sauter des niveaux nuit à la structure et à l'accessibilité.">
+    <span class="part">Partie 7</span>
+    <h2>Exercice 21 — Hiérarchie des titres</h2>
+    <p>Quelle est une bonne pratique pour les titres (h1, h2, h3…) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex21" value="a"><span>Mettre plusieurs <code>&lt;h1&gt;</code> sur une même page</span></label>
+      <label><input type="radio" name="ex21" value="b"><span>Passer directement de <code>&lt;h1&gt;</code> à <code>&lt;h4&gt;</code> sans h2 ni h3</span></label>
+      <label><input type="radio" name="ex21" value="c"><span>Un seul <code>&lt;h1&gt;</code> puis <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>… dans un ordre logique</span></label>
+      <label><input type="radio" name="ex21" value="d"><span>Utiliser uniquement <code>&lt;h6&gt;</code> pour tout</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex21')">Vérifier</button>
+    <div class="feedback" id="fb-ex21" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 8 : Liens et navigation -->
+  <section class="exo" id="ex22" data-answer="a" data-explanation="Pour un lien vers une ancre sur la même page, le href commence par # suivi de l'id de l'élément cible : href=&quot;#nom-de-l-ancre&quot;. Sans #, le navigateur chercherait un fichier.">
+    <span class="part">Partie 8 — Liens et navigation</span>
+    <h2>Exercice 22 — Lien vers une ancre sur la même page</h2>
+    <p>Pour faire un lien qui amène vers un endroit précis <strong>sur la même page</strong>, on utilise souvent un attribut <code>id</code> sur l’élément cible. Quelle valeur met-on dans le <code>href</code> du lien ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex22" value="a"><span><code>href="#nom-de-l-ancre"</code> (avec un #)</span></label>
+      <label><input type="radio" name="ex22" value="b"><span><code>href="nom-de-l-ancre"</code></span></label>
+      <label><input type="radio" name="ex22" value="c"><span><code>href="id=nom-de-l-ancre"</code></span></label>
+      <label><input type="radio" name="ex22" value="d"><span><code>href="page.html#nom"</code> uniquement vers une autre page</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex22')">Vérifier</button>
+    <div class="feedback" id="fb-ex22" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex23" data-answer="b" data-explanation="L'attribut target=&quot;_blank&quot; ouvre le lien dans un nouvel onglet. new, window et open ne sont pas des attributs HTML valides pour cela.">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 23 — Ouvrir un lien dans un nouvel onglet</h2>
+    <p>Quel attribut permet d’ouvrir un lien dans un <strong>nouvel onglet</strong> ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex23" value="a"><span><code>new="tab"</code></span></label>
+      <label><input type="radio" name="ex23" value="b"><span><code>target="_blank"</code></span></label>
+      <label><input type="radio" name="ex23" value="c"><span><code>window="new"</code></span></label>
+      <label><input type="radio" name="ex23" value="d"><span><code>open="blank"</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex23')">Vérifier</button>
+    <div class="feedback" id="fb-ex23" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex24" data-answer="a" data-explanation="&lt;nav&gt; est la balise sémantique HTML5 pour la zone de navigation (menu de liens). &lt;menu&gt; existe mais a un autre usage. &lt;links&gt; et &lt;navigation&gt; n'existent pas.">
+    <span class="part">Partie 8</span>
+    <h2>Exercice 24 — Zone de navigation</h2>
+    <p>Quelle balise HTML5 est prévue pour contenir les <strong>liens de navigation</strong> (menu) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex24" value="a"><span><code>&lt;nav&gt;</code></span></label>
+      <label><input type="radio" name="ex24" value="b"><span><code>&lt;menu&gt;</code></span></label>
+      <label><input type="radio" name="ex24" value="c"><span><code>&lt;links&gt;</code></span></label>
+      <label><input type="radio" name="ex24" value="d"><span><code>&lt;navigation&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex24')">Vérifier</button>
+    <div class="feedback" id="fb-ex24" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 9 : Tableaux et divers -->
+  <section class="exo" id="ex25" data-answer="b" data-explanation="Un tableau HTML se crée avec &lt;table&gt;. À l'intérieur on utilise &lt;tr&gt; (ligne), &lt;td&gt; (cellule), &lt;th&gt; (en-tête). &lt;tab&gt;, &lt;grid&gt; n'existent pas ; &lt;tr&gt; seul ne définit pas le tableau.">
+    <span class="part">Partie 9 — Tableaux et divers</span>
+    <h2>Exercice 25 — Créer un tableau</h2>
+    <p>Quelle balise définit un <strong>tableau</strong> en HTML ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex25" value="a"><span><code>&lt;tab&gt;</code></span></label>
+      <label><input type="radio" name="ex25" value="b"><span><code>&lt;table&gt;</code></span></label>
+      <label><input type="radio" name="ex25" value="c"><span><code>&lt;grid&gt;</code></span></label>
+      <label><input type="radio" name="ex25" value="d"><span><code>&lt;tr&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex25')">Vérifier</button>
+    <div class="feedback" id="fb-ex25" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex26" data-answer="a,b">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 26 — Lignes et cellules d’un tableau</h2>
+    <p>Dans un <code>&lt;table&gt;</code>, quelles balises utilisons-nous ? (plusieurs réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex26" value="a"><span><code>&lt;tr&gt;</code> pour une ligne</span></label>
+      <label><input type="checkbox" name="ex26" value="b"><span><code>&lt;td&gt;</code> pour une cellule (ou <code>&lt;th&gt;</code> pour un en-tête)</span></label>
+      <label><input type="checkbox" name="ex26" value="c"><span><code>&lt;row&gt;</code> et <code>&lt;cell&gt;</code></span></label>
+      <label><input type="checkbox" name="ex26" value="d"><span><code>&lt;line&gt;</code> et <code>&lt;col&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex26')">Vérifier</button>
+    <div class="feedback" id="fb-ex26" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex27" data-answer="b" data-explanation="En HTML, un commentaire s'écrit &lt;!-- texte --&gt;. La syntaxe // et # est utilisée dans d'autres langages (JavaScript, CSS). Il n'y a pas de balise &lt;comment&gt;.">
+    <span class="part">Partie 9</span>
+    <h2>Exercice 27 — Commentaire HTML</h2>
+    <p>Comment écrit-on un <strong>commentaire</strong> en HTML (texte invisible dans la page, pour les développeurs) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex27" value="a"><span><code>// ceci est un commentaire</code></span></label>
+      <label><input type="radio" name="ex27" value="b"><span><code>&lt;!-- ceci est un commentaire --&gt;</code></span></label>
+      <label><input type="radio" name="ex27" value="c"><span><code>&lt;comment&gt;...&lt;/comment&gt;</code></span></label>
+      <label><input type="radio" name="ex27" value="d"><span><code># ceci est un commentaire</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex27')">Vérifier</button>
+    <div class="feedback" id="fb-ex27" role="alert" hidden></div>
+  </section>
+
+  <!-- Partie 10 : Synthèse -->
+  <section class="exo" id="ex28" data-answer="b" data-explanation="L'encodage se déclare avec &lt;meta charset=&quot;UTF-8&quot;&gt; dans le &lt;head&gt; (souvent en première balise). C'est meta, pas encoding ni charset. Cela permet d'afficher correctement les accents.">
+    <span class="part">Partie 10 — Synthèse</span>
+    <h2>Exercice 28 — Encodage des caractères</h2>
+    <p>Dans le <code>&lt;head&gt;</code>, quelle balise indique l’<strong>encodage</strong> du fichier (pour afficher correctement les accents) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex28" value="a"><span><code>&lt;encoding charset="UTF-8"&gt;</code></span></label>
+      <label><input type="radio" name="ex28" value="b"><span><code>&lt;meta charset="UTF-8"&gt;</code></span></label>
+      <label><input type="radio" name="ex28" value="c"><span><code>&lt;charset&gt;UTF-8&lt;/charset&gt;</code></span></label>
+      <label><input type="radio" name="ex28" value="d"><span><code>&lt;lang="fr"&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex28')">Vérifier</button>
+    <div class="feedback" id="fb-ex28" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex29" data-answer="a" data-explanation="Le titre de l'onglet du navigateur se met dans &lt;title&gt; à l'intérieur du &lt;head&gt;. Le &lt;h1&gt; est le titre affiché dans la page. La balise &lt;tab&gt; n'existe pas.">
+    <span class="part">Partie 10</span>
+    <h2>Exercice 29 — Titre de l’onglet</h2>
+    <p>Où place-t-on le <strong>titre de l’onglet</strong> du navigateur (celui qui s’affiche dans l’onglet) ?</p>
+    <div class="options">
+      <label><input type="radio" name="ex29" value="a"><span>Dans <code>&lt;title&gt;</code> à l’intérieur de <code>&lt;head&gt;</code></span></label>
+      <label><input type="radio" name="ex29" value="b"><span>Dans <code>&lt;h1&gt;</code> dans le body</span></label>
+      <label><input type="radio" name="ex29" value="c"><span>Dans un attribut <code>title</code> sur <code>&lt;html&gt;</code></span></label>
+      <label><input type="radio" name="ex29" value="d"><span>Dans <code>&lt;tab&gt;</code></span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex29')">Vérifier</button>
+    <div class="feedback" id="fb-ex29" role="alert" hidden></div>
+  </section>
+
+  <section class="exo" id="ex30" data-answer="a,b,c,d" data-explanation="Une page bien structurée a DOCTYPE, html, head, body, meta charset, title, et du contenu sémantique dans le body. Mettre &quot;autant de div que possible&quot; est une mauvaise pratique : il faut privilégier les balises adaptées (main, nav, section, etc.).">
+    <span class="part">Partie 10 — Projet</span>
+    <h2>Exercice 30 — Une page HTML bien structurée</h2>
+    <p>Quels éléments font partie d’une page HTML bien structurée ? (sélectionne toutes les bonnes réponses)</p>
+    <div class="options">
+      <label><input type="checkbox" name="ex30" value="a"><span><code>&lt;!DOCTYPE html&gt;</code> puis <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code>, <code>&lt;body&gt;</code></span></label>
+      <label><input type="checkbox" name="ex30" value="b"><span>Un <code>&lt;meta charset="UTF-8"&gt;</code> et un <code>&lt;title&gt;</code> dans le head</span></label>
+      <label><input type="checkbox" name="ex30" value="c"><span>Le contenu visible dans <code>&lt;body&gt;</code> (titres, paragraphes, liens, images…)</span></label>
+      <label><input type="checkbox" name="ex30" value="d"><span>Des balises adaptées au sens du contenu (titres, listes, formulaires…)</span></label>
+      <label><input type="checkbox" name="ex30" value="e"><span>Autant de <code>&lt;div&gt;</code> que possible partout</span></label>
+    </div>
+    <button type="button" class="verify" onclick="check('ex30')">Vérifier</button>
+    <div class="feedback" id="fb-ex30" role="alert" hidden></div>
+  </section>
+
+  <div id="restart-area" class="restart-area" hidden>
+    <p id="final-message"></p>
+    <button type="button" id="restart-btn" class="verify">Recommencer les 30 défis</button>
+  </div>
+
+  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--card); color: var(--muted); font-size: 0.9rem;">
+    <p>HTML = structure, CSS = apparence, JavaScript = comportement. Bonne continuation !</p>
+  </footer>
+
+  <script>
+    var STORAGE_KEY = 'qcm-html-progress';
+    var results = {};
+
+    function loadProgress() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        var data = JSON.parse(raw);
+        if (data.results && typeof data.results === 'object') {
+          results = data.results;
+          Object.keys(data.choices || {}).forEach(function (id) {
+            var section = document.getElementById(id);
+            if (!section) return;
+            var choice = data.choices[id];
+            var inputs = section.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            var values = choice.split(',');
+            inputs.forEach(function (input) {
+              input.checked = values.indexOf(input.value) !== -1;
+            });
+            var btn = section.querySelector('button.verify');
+            var feedback = document.getElementById('fb-' + id);
+            if (results[id] !== undefined && btn && feedback) {
+              btn.disabled = true;
+              feedback.hidden = false;
+              feedback.className = 'feedback ' + (results[id] ? 'correct' : 'incorrect');
+              if (results[id]) {
+                feedback.textContent = 'Bravo, c\'est correct !';
+              } else {
+                setIncorrectFeedback(section, feedback);
+                var expected = (section.dataset.answer || '').split(',').sort();
+                markLabels(section, expected);
+              }
+            }
+          });
+        }
+      } catch (e) {}
+      updateScore();
+      showRestartIfDone();
+    }
+
+    function saveProgress() {
+      var choices = {};
+      for (var n = 1; n <= 30; n++) {
+        var id = 'ex' + n;
+        var section = document.getElementById(id);
+        if (!section) continue;
+        var radios = section.querySelectorAll('input[type="radio"]:checked');
+        var checkboxes = section.querySelectorAll('input[type="checkbox"]:checked');
+        if (radios.length) choices[id] = radios[0].value;
+        else if (checkboxes.length) choices[id] = Array.from(checkboxes).map(function (c) { return c.value; }).sort().join(',');
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ results: results, choices: choices }));
+      } catch (e) {}
+    }
+
+    function getSelected(id) {
+      var section = document.getElementById(id);
+      var radios = section.querySelectorAll('input[type="radio"]:checked');
+      var checkboxes = section.querySelectorAll('input[type="checkbox"]:checked');
+      if (radios.length) return radios[0].value;
+      if (checkboxes.length) return Array.from(checkboxes).map(function (cb) { return cb.value; }).sort().join(',');
+      return null;
+    }
+
+    function getExpected(id) {
+      return document.getElementById(id).dataset.answer || '';
+    }
+
+    function escapeHtml(text) {
+      var div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function setIncorrectFeedback(section, feedbackEl) {
+      var explanation = section.dataset.explanation || '';
+      var msg = 'Pas tout à fait. Regarde la bonne réponse ci-dessus.';
+      if (explanation) {
+        feedbackEl.innerHTML = msg + '<span class="explanation">' + escapeHtml(explanation) + '</span>';
+      } else {
+        feedbackEl.textContent = msg;
+      }
+    }
+
+    function markLabels(section, correctValues) {
+      section.querySelectorAll('.options label').forEach(function (l) {
+        l.classList.remove('correct', 'incorrect');
+        var input = l.querySelector('input');
+        if (!input) return;
+        var val = input.value;
+        var isCorrectAnswer = correctValues.indexOf(val) !== -1;
+        if (isCorrectAnswer) {
+          l.classList.add('correct');
+        } else if (input.checked) {
+          l.classList.add('incorrect');
+        }
+      });
+    }
+
+    function check(id) {
+      if (results[id] !== undefined) return;
+      var section = document.getElementById(id);
+      var expected = getExpected(id);
+      var expectedArr = expected.split(',').sort();
+      var selected = getSelected(id);
+      var selectedArr = selected ? selected.split(',').sort() : [];
+      var correct = expected === (selected ? selectedArr.join(',') : '');
+      results[id] = correct;
+
+      var feedback = document.getElementById('fb-' + id);
+      feedback.hidden = false;
+      feedback.className = 'feedback ' + (correct ? 'correct' : 'incorrect');
+      if (correct) {
+        feedback.textContent = 'Bravo, c\'est correct !';
+      } else {
+        setIncorrectFeedback(section, feedback);
+        markLabels(section, expectedArr);
+      }
+
+      section.querySelector('button.verify').disabled = true;
+      updateScore();
+      saveProgress();
+      showRestartIfDone();
+    }
+
+    function updateScore() {
+      var total = Object.keys(results).reduce(function (sum, k) { return sum + (results[k] ? 1 : 0); }, 0);
+      document.getElementById('score').textContent = total;
+      document.getElementById('progress').value = total;
+    }
+
+    function showRestartIfDone() {
+      var done = Object.keys(results).length === 30;
+      var area = document.getElementById('restart-area');
+      var msg = document.getElementById('final-message');
+      if (!done) {
+        area.hidden = true;
+        return;
+      }
+      area.hidden = false;
+      var score = Object.keys(results).reduce(function (sum, k) { return sum + (results[k] ? 1 : 0); }, 0);
+      if (score === 30) {
+        msg.textContent = 'Félicitations ! Tu as réussi les 30 défis HTML. Tu peux recommencer pour revoir les notions.';
+      } else {
+        msg.textContent = 'Tu as terminé les 30 défis avec un score de ' + score + '/30. Tu peux recommencer pour t\'améliorer.';
+      }
+    }
+
+    document.getElementById('restart-btn').addEventListener('click', function () {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      location.reload();
+    });
+
+    loadProgress();
+  </script>
+</body>
+</html>

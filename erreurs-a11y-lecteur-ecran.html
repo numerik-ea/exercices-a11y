@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+  LISTE DES ERREURS D'ACCESSIBILITÉ (pour le formateur)
+  À faire repérer par le stagiaire avec TalkBack / VoiceOver / NVDA :
+
+  1. Attribut lang manquant sur <html> (lang="fr")
+  2. Images sans alternative : logo, produit1.jpg, produit2.jpg (pas d’attribut alt)
+  3. Image décorative avec alt trop long : alt="" attendu pour deco-wave.svg
+  4. Hiérarchie de titres : pas de h1, ordre incohérent (h3, h5, h4, h2)
+  5. Liens « Cliquez ici » / « cliquez ici » sans contexte (texte de lien non explicite)
+  6. Boutons simulés : <span> et <div> avec onclick/role="button" (non accessibles au clavier, pas de sémantique)
+  7. Information donnée uniquement par la couleur (vert/rouge pour stock), sans texte ou icône
+  8. Tableau sans <th> ni scope : première ligne en <td> au lieu de <th>
+  9. Champ email sans <label> associé (placeholder seul insuffisant)
+  10. Boutons icônes (🔍 ❤️ 🛒) sans aria-label ni texte accessible
+  11. Erreurs de formulaire indiquées seulement par bordure rouge (pas de message ni aria-describedby/aria-invalid)
+  12. Pas de lien d’évitement (skip link) pour aller au contenu principal
+-->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique en ligne</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+      margin: 0;
+      padding: 1rem;
+      max-width: 52rem;
+      margin-inline: auto;
+    }
+    a { color: #38bdf8; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+    .btn { padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; border: none; background: #38bdf8; color: #0f172a; }
+    .card { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { padding: 0.5rem; border: 1px solid #334155; text-align: left; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    .low-contrast { color: #64748b; }
+    .icon-btn { width: 40px; height: 40px; border-radius: 50%; background: #334155; border: none; cursor: pointer; font-size: 1.2rem; }
+    form label { display: block; margin-top: 0.5rem; }
+    form input { padding: 0.5rem; width: 100%; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <header role="banner" class="header">
+    <img src="./images/logo.png" width="120">
+    <nav role="navigation" aria-label="Navigation principale" >
+      <a href="/">Accueil</a>
+      <a href="/produits">Produits</a>
+      <a href="/contact">Contact</a>
+      <a href="#">Cliquez ici</a>
+    </nav>
+  </header>
+
+  <main role="main">
+  <h3>Bienvenue sur notre boutique</h3>
+  <p>Découvrez nos produits. Pour en savoir plus, <a href="/details">cliquez ici</a>.</p>
+
+  <div class="card">
+    <h5>Produits populaires</h5>
+    <div class="produit">
+      <img src="./images/t-shirt.png" width="200">
+      <p>T-shirt coton bio — 29,00 €</p>
+      <span class="btn" onclick="ajouterAuPanier(1)">Ajouter au panier</span>
+    </div>
+    <div class="produit">
+      <img src="./images/jean-slim.png" width="200">
+      <p>Jean slim — 79,00 €</p>
+      <div class="btn" role="button">Ajouter au panier</div>
+    </div>
+    <div class="produit">
+      <img src="./images/sac-en-toile.png" width="200" alt="Vague décorative bleue et blanche avec effet gradient">
+      <p>Sac en toile — 45,00 €</p>
+      <button class="btn">Ajouter au panier</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Promotions du jour</h4>
+    <p class="low-contrast">Les articles en vert sont en stock. Les articles en rouge sont en rupture.</p>
+    <ul>
+      <li style="color: #4ade80;">T-shirt — En stock</li>
+      <li style="color: #f87171;">Jean — Rupture</li>
+      <li style="color: #4ade80;">Sac — En stock</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Tableau des tarifs</h2>
+    <table>
+      <tr>
+        <td>Produit</td>
+        <td>Prix</td>
+        <td>Stock</td>
+      </tr>
+      <tr>
+        <td>T-shirt</td>
+        <td>29 €</td>
+        <td>Oui</td>
+      </tr>
+      <tr>
+        <td>Jean</td>
+        <td>79 €</td>
+        <td>Non</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h4>Newsletter</h4>
+    <form action="/newsletter" method="post">
+      <input type="email" placeholder="Votre adresse email">
+      <button type="submit" class="btn">OK</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h4>Actions</h4>
+    <button class="icon-btn">🔍</button>
+    <button class="icon-btn">❤️</button>
+    <button class="icon-btn">🛒</button>
+  </div>
+
+  <div class="card">
+    <p>Erreur : veuillez corriger les champs en rouge.</p>
+    <form>
+      <input type="text" style="border: 2px solid #f87171;">
+      <input type="text" style="border: 2px solid #f87171;">
+    </form>
+  </div>
+
+  </main>
+  <footer role="contentinfo">
+    <p>© <span id="year"></span> Boutique. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    function ajouterAuPanier(id) {
+      console.log('Ajout produit', id);
+    }
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
