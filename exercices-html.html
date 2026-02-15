@@ -622,13 +622,33 @@
       return div.innerHTML;
     }
 
+    function getAnswerText(section, expected) {
+      var values = expected.split(',').map(function (v) { return v.trim(); });
+      var texts = [];
+      values.forEach(function (val) {
+        var input = section.querySelector('input[value="' + val + '"]');
+        if (input) {
+          var span = input.closest('label').querySelector('span');
+          if (span) texts.push(span.textContent.trim());
+        }
+      });
+      return texts.join(' ; ');
+    }
+
     function setIncorrectFeedback(section, feedbackEl) {
       var explanation = section.dataset.explanation || '';
-      var msg = 'Pas tout à fait. Regarde la bonne réponse ci-dessus.';
+      var expected = section.dataset.answer || '';
+      var answerText = getAnswerText(section, expected);
+      var msg = 'Pas tout à fait. ';
+      if (answerText) {
+        msg += 'La bonne réponse : ' + escapeHtml(answerText);
+      } else {
+        msg += 'Regarde la bonne réponse ci-dessus.';
+      }
       if (explanation) {
         feedbackEl.innerHTML = msg + '<span class="explanation">' + escapeHtml(explanation) + '</span>';
       } else {
-        feedbackEl.textContent = msg;
+        feedbackEl.innerHTML = msg;
       }
     }
 
