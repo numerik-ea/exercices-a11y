@@ -4,135 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>30 défis accessibilité — Découverte du web pour tous</title>
+  <link rel="stylesheet" href="common.css">
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
       --accent: #38bdf8;
       --accent-hover: #7dd3fc;
-      --success: #4ade80;
-      --error: #f87171;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      margin: 0;
-      padding: 1rem;
-      max-width: 52rem;
-      margin-inline: auto;
-    }
-    h1 {
-      font-size: 1.75rem;
-      margin-bottom: 0.25rem;
-      color: var(--accent);
-    }
-    .intro {
-      color: var(--muted);
-      margin-bottom: 2rem;
-    }
-    .score-bar {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-    .score-bar progress {
-      flex: 1;
-      min-width: 120px;
-      height: 12px;
-      border-radius: 6px;
-      background: var(--card);
-    }
-    .score-bar progress::-webkit-progress-bar { background: var(--card); border-radius: 6px; }
-    .score-bar progress::-webkit-progress-value { background: var(--accent); border-radius: 6px; }
-    .score-bar progress::-moz-progress-bar { background: var(--accent); border-radius: 6px; }
-    .score-text { font-weight: bold; color: var(--accent); }
-    section.exo {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1rem;
-      border-left: 4px solid var(--accent);
-    }
-    section.exo h2 {
-      font-size: 1rem;
-      margin: 0 0 0.5rem 0;
-      color: var(--text);
-    }
-    section.exo .part {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-    }
-    .options label {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.6rem 0.8rem;
-      background: var(--bg);
-      border-radius: 8px;
-      cursor: pointer;
-      border: 2px solid transparent;
-    }
-    .options label:hover { border-color: var(--muted); }
-    .options input:checked + span { font-weight: 600; }
-    .options input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-    .options label.correct { border-color: var(--success); background: rgba(74, 222, 128, 0.15); }
-    .options label.incorrect { border-color: var(--error); background: rgba(248, 113, 113, 0.15); }
-    .options input[type="checkbox"] { margin-right: 0.5rem; }
-    .options input[type="radio"] { margin-right: 0.5rem; }
-    .feedback {
-      margin-top: 0.75rem;
-      padding: 0.6rem 0.8rem;
-      border-radius: 8px;
-      font-size: 0.9rem;
-    }
-    .feedback.correct { background: rgba(74, 222, 128, 0.2); color: var(--success); }
-    .feedback.incorrect { background: rgba(248, 113, 113, 0.2); color: var(--error); }
-    .feedback .explain { display: block; margin-top: 0.5rem; color: var(--muted); font-size: 0.9rem; }
-.feedback.explain { color: var(--muted); margin-top: 0.25rem; }
-    button.verify {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button.verify:hover { background: var(--accent-hover); }
-    button.verify:disabled { opacity: 0.6; cursor: not-allowed; }
-    .input-text { width: 100%; max-width: 20rem; padding: 0.5rem; border-radius: 6px; border: 2px solid var(--bg); background: var(--bg); color: var(--text); margin-top: 0.25rem; }
-    .input-text:focus { outline: none; border-color: var(--accent); }
-    code { background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
-    .match-row { display: flex; align-items: center; gap: 0.5rem; margin: 0.4rem 0; flex-wrap: wrap; }
-    .match-row select { padding: 0.35rem 0.5rem; border-radius: 6px; background: var(--bg); color: var(--text); border: 2px solid var(--bg); }
-    .match-row select:focus { border-color: var(--accent); outline: none; }
-    .restart-area {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-left: 4px solid var(--success);
-      text-align: center;
-    }
-    .restart-area p { margin: 0 0 1rem 0; font-size: 1.1rem; }
-    #restart-btn { font-size: 1rem; padding: 0.75rem 1.5rem; }
-    code { word-wrap: break-word; overflow-wrap: break-word; }
-    @media (max-width: 640px) {
-      body { padding: 0.75rem 0.5rem; }
-      h1 { font-size: 1.4rem; }
-      section.exo { padding: 1rem 1rem; }
-      .options label { padding: 0.5rem 0.6rem; }
-      .score-bar { gap: 0.5rem; }
-      .score-bar progress { min-width: 80px; }
-      .input-text { max-width: 100%; }
+      --accent-heading: #7dd3fc;
+      --btn-primary-bg: #0284c7;
+      --btn-primary-hover: #7dd3fc;
     }
   </style>
 </head>
@@ -583,7 +462,7 @@
     <button type="button" id="restart-btn" class="verify">Recommencer les 30 défis</button>
   </div>
 
-  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--card); color: var(--muted); font-size: 0.9rem;">
+  <footer>
     <p>WCAG = Web Content Accessibility Guidelines · RGAA = Référentiel général d'amélioration de l'accessibilité (France).<br>
     Lecteurs d'écran : NVDA (Windows), VoiceOver (Mac/iOS), TalkBack (Android).</p>
   </footer>

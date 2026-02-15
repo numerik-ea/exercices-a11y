@@ -4,44 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>30 exercices — Écrire du HTML</title>
+  <link rel="stylesheet" href="common.css">
   <style>
     :root {
-      --bg: #0f172a;
-      --card: #1e293b;
       --accent: #34d399;
       --accent-hover: #6ee7b7;
-      --success: #4ade80;
-      --error: #f87171;
-      --text: #e2e8f0;
-      --muted: #94a3b8;
+      --accent-heading: #6ee7b7;
+      --btn-primary-bg: #059669;
+      --btn-primary-hover: #6ee7b7;
     }
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      margin: 0;
-      padding: 1rem;
-      max-width: 52rem;
-      margin-inline: auto;
-    }
-    h1 { font-size: 1.75rem; margin-bottom: 0.25rem; color: var(--accent); }
-    .intro { color: var(--muted); margin-bottom: 2rem; }
-    .score-bar { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-    .score-bar progress { flex: 1; min-width: 120px; height: 12px; border-radius: 6px; background: var(--card); }
-    .score-bar progress::-webkit-progress-bar { background: var(--card); border-radius: 6px; }
-    .score-bar progress::-webkit-progress-value { background: var(--accent); border-radius: 6px; }
-    .score-text { font-weight: bold; color: var(--accent); }
-    section.exo {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1rem;
-      border-left: 4px solid var(--accent);
-    }
-    section.exo h2 { font-size: 1rem; margin: 0 0 0.5rem 0; color: var(--text); }
-    section.exo .part { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.5rem; }
     .exo label { display: block; margin-bottom: 0.25rem; color: var(--muted); font-size: 0.9rem; }
     .exo textarea.code {
       width: 100%;
@@ -56,40 +27,7 @@
       resize: vertical;
     }
     .exo textarea.code:focus { outline: none; border-color: var(--accent); }
-    .feedback { margin-top: 0.75rem; padding: 0.6rem 0.8rem; border-radius: 8px; font-size: 0.9rem; }
-    .feedback.correct { background: rgba(74, 222, 128, 0.2); color: var(--success); }
-    .feedback.incorrect { background: rgba(248, 113, 113, 0.2); color: var(--error); }
-    .feedback .solution { display: block; margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(248, 113, 113, 0.3); font-size: 0.85rem; }
-    .feedback .solution code { white-space: pre-wrap; word-break: break-all; }
-    button.verify {
-      margin-top: 0.75rem;
-      padding: 0.5rem 1rem;
-      background: var(--accent);
-      color: var(--bg);
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    button.verify:hover { background: var(--accent-hover); }
-    button.verify:disabled { opacity: 0.6; cursor: not-allowed; }
-    code { background: var(--bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
-    .restart-area {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-      border-left: 4px solid var(--success);
-      text-align: center;
-    }
-    .restart-area p { margin: 0 0 1rem 0; font-size: 1.1rem; }
-    #restart-btn { font-size: 1rem; padding: 0.75rem 1.5rem; }
-    code { word-wrap: break-word; overflow-wrap: break-word; }
-    .feedback .solution code { word-break: break-word; }
     @media (max-width: 640px) {
-      body { padding: 0.75rem 0.5rem; }
-      h1 { font-size: 1.4rem; }
-      section.exo { padding: 1rem 1rem; }
       .exo textarea.code { padding: 0.6rem; font-size: 0.85rem; min-height: 70px; }
     }
   </style>
@@ -437,7 +375,7 @@
     <div class="feedback" id="fb-ex30" role="alert" hidden></div>
   </section>
 
-  <footer style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--card); color: var(--muted); font-size: 0.9rem;">
+  <footer>
     <p>Tu peux écrire les balises en minuscules ou majuscules. Les espaces et retours à la ligne en trop ne sont pas pénalisés.</p>
   </footer>
 
